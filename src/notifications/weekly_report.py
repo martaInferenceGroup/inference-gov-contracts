@@ -55,7 +55,7 @@ def fetch_and_filter(search_cfg: dict, email_cfg: dict) -> list[dict]:
     max_value = criteria.get("max_value")
     open_only = criteria.get("open_only", True)
 
-    date_from = datetime.now() - timedelta(days=7)
+    date_from = datetime(2020, 1, 1)  # no time limit — search all available contracts
 
     all_results = []
 
