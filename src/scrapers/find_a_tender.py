@@ -52,7 +52,32 @@ def fetch_notices(keywords: list[str], max_pages: int = 5,
                   published_from: datetime | None = None,
                   published_to: datetime | None = None,
                   **_kwargs) -> list[dict]:
-    """Fetch notices from Find a Tender matching keywords."""
+    """Fetch notices from Find a Tender matching keywords.
+
+    If keyword list is very long, batches into groups to avoid form errors.
+    """
+    # FaT form can't handle very long keyword queries — batch if needed
+    MAX_KEYWORDS_PER_QUERY = 15
+    if len(keywords) > MAX_KEYWORDS_PER_QUERY:
+        all_results = []
+        seen_ids: set[str] = set()
+        for i in range(0, len(keywords), MAX_KEYWORDS_PER_QUERY):
+            batch = keywords[i:i + MAX_KEYWORDS_PER_QUERY]
+            try:
+                batch_results = fetch_notices(
+                    keywords=batch, max_pages=max_pages,
+                    min_value=min_value, max_value=max_value,
+                    stages=stages, published_from=published_from,
+                    published_to=published_to,
+                )
+                for r in batch_results:
+                    if r["ocid"] not in seen_ids:
+                        seen_ids.add(r["ocid"])
+                        all_results.append(r)
+            except Exception as e:
+                print(f"  FaT batch {i//MAX_KEYWORDS_PER_QUERY + 1} error: {e}")
+        return all_results
+
     query = " OR ".join(f'"{kw}"' for kw in keywords)
 
     session = _session()

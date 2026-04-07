@@ -1,0 +1,10 @@
+{
+  "recipients": ["marta@inferencegroup.com"],
+  "subject_prefix": "Inference Group — Weekly Gov Contracts",
+  "criteria": {
+    "max_value": 500000,
+    "open_only": true,
+    "sort_by": "closing_date_asc"
+  },
+  "schedule": "Every Friday 8:00 AM UTC"
+}
