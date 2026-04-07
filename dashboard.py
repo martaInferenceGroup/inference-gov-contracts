@@ -20,6 +20,7 @@ import streamlit as st
 sys.path.insert(0, str(Path(__file__).parent))
 
 from src.scrapers import contracts_finder, find_a_tender
+from src.analysis.qc_agents import run_all_qc
 
 
 # ---------------------------------------------------------------------------
@@ -604,6 +605,118 @@ if "results" in st.session_state and st.session_state["results"]:
     })
     csv = export_display.to_csv(index=False)
     st.download_button("Download CSV", csv, "gov_contracts.csv", "text/csv")
+
+    # ------------------------------------------------------------------
+    # QC Panel
+    # ------------------------------------------------------------------
+
+    st.markdown("---")
+    with st.expander("Quality Control Report"):
+
+        qc = run_all_qc(filtered.to_dict("records"), filtered["_summary"].tolist())
+        s = qc["summary"]
+
+        # --- Overview metrics ---
+        st.markdown(f"##### Overview")
+        q1, q2, q3, q4 = st.columns(4)
+        q1.metric("Relevance", f"{s['avg_relevance_score']}/5")
+        q2.metric("Summary Quality", f"{s['avg_summary_quality']}/5")
+        q3.metric("Completeness", f"{s['avg_completeness']}/10")
+        q4.metric("Duplicate Groups", s["duplicate_groups"])
+
+        # --- Tabs for each agent ---
+        tab1, tab2, tab3, tab4 = st.tabs([
+            f"Relevance ({s['false_positives']} flagged)",
+            f"Summaries ({s['low_quality_summaries']} issues)",
+            f"Completeness ({s['incomplete_records']} gaps)",
+            f"Duplicates ({s['duplicate_groups']} groups)",
+        ])
+
+        # Tab 1: Keyword Relevance
+        with tab1:
+            flagged = [f for f in qc["relevance"] if f["is_false_positive"]]
+            if flagged:
+                st.warning(f"{len(flagged)} potential false positive(s) detected")
+                for f in flagged:
+                    st.markdown(
+                        f"- **{html_mod.escape(f['title'][:60])}** ({f['source']}) "
+                        f"— Score: {f['relevance_score']}/5 — {f['reason']}"
+                    )
+            else:
+                st.success("All results appear relevant to AI/Data")
+
+            # Show score distribution
+            scores = [f["relevance_score"] for f in qc["relevance"]]
+            if scores:
+                score_df = pd.DataFrame({"Relevance Score": scores})
+                st.bar_chart(score_df["Relevance Score"].value_counts().sort_index())
+
+        # Tab 2: Summary Quality
+        with tab2:
+            poor = [f for f in qc["summary_quality"] if f["quality_score"] <= 2]
+            if poor:
+                st.warning(f"{len(poor)} summary/summaries need improvement")
+                for f in poor:
+                    st.markdown(
+                        f"- **{html_mod.escape(f['title'])}**\n"
+                        f"  - Summary: *{html_mod.escape(f['summary'][:80])}*\n"
+                        f"  - Issues: {', '.join(f['issues'])}"
+                    )
+            else:
+                st.success("All summaries describe deliverables")
+
+            ok = [f for f in qc["summary_quality"] if f["quality_score"] >= 4]
+            st.caption(f"{len(ok)}/{len(qc['summary_quality'])} summaries rated good or excellent")
+
+        # Tab 3: Data Completeness
+        with tab3:
+            gaps = [f for f in qc["completeness"] if f["missing_fields"]]
+            if gaps:
+                # Aggregate most common missing fields
+                from collections import Counter
+                field_counts = Counter()
+                for f in gaps:
+                    for m in f["missing_fields"]:
+                        field_counts[m] += 1
+
+                st.markdown("**Most commonly missing fields:**")
+                for field, count in field_counts.most_common():
+                    pct = count / len(qc["completeness"]) * 100
+                    st.markdown(f"- {field}: missing in {count} results ({pct:.0f}%)")
+
+                st.markdown("")
+                st.markdown("**Records with most gaps:**")
+                worst = sorted(gaps, key=lambda f: len(f["missing_fields"]), reverse=True)[:5]
+                for f in worst:
+                    st.markdown(
+                        f"- **{html_mod.escape(f['title'])}** ({f['source']}) "
+                        f"— {f['fields_present']} fields — missing: {', '.join(f['missing_fields'])}"
+                    )
+            else:
+                st.success("All records are complete")
+
+            # Warnings
+            all_warnings = [w for f in qc["completeness"] for w in f.get("warnings", [])]
+            if all_warnings:
+                with st.expander(f"{len(all_warnings)} data warnings"):
+                    for w in all_warnings[:20]:
+                        st.caption(f"- {w}")
+
+        # Tab 4: Duplicates
+        with tab4:
+            dupes = qc["duplicates"]
+            if dupes:
+                st.warning(f"{len(dupes)} duplicate group(s) found")
+                for g in dupes:
+                    st.markdown(f"**{html_mod.escape(g['title_sample'])}** — {g['relationship']}")
+                    for n in g["notices"]:
+                        val_str = f" — \u00a3{n['value']:,.0f}" if n.get("value") else ""
+                        st.markdown(
+                            f"  - {n['source']} | {n['type']}{val_str} | `{n['ocid']}`"
+                        )
+                    st.markdown("")
+            else:
+                st.success("No duplicates detected")
 
 elif "results" in st.session_state:
     st.info("No results found.")
