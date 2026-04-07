@@ -1,28 +1,24 @@
 """
 Weekly Gov Contracts Email Report
 ==================================
-Searches both portals, filters to criteria, and sends an HTML email.
+Searches both portals, filters to criteria, and sends an HTML email via SendGrid.
 
 Run manually:  python -m src.notifications.weekly_report
 Scheduled via: GitHub Actions (.github/workflows/weekly-contracts.yml)
 
-Requires environment variables:
-    SMTP_HOST      — e.g. smtp.office365.com
-    SMTP_PORT      — e.g. 587
-    SMTP_USER      — e.g. marta@inferencegroup.com
-    SMTP_PASSWORD  — app password or account password
+Requires environment variable:
+    SENDGRID_API_KEY  — from https://app.sendgrid.com/settings/api_keys
 """
 
 import json
 import os
 import re
 import html as html_mod
-import smtplib
 import sys
 from datetime import datetime, timedelta
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from pathlib import Path
+
+import requests as http_requests
 
 # Allow imports from project root
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
@@ -59,7 +55,7 @@ def fetch_and_filter(search_cfg: dict, email_cfg: dict) -> list[dict]:
     max_value = criteria.get("max_value")
     open_only = criteria.get("open_only", True)
 
-    date_from = datetime.now() - timedelta(days=7)  # last week
+    date_from = datetime.now() - timedelta(days=7)
 
     all_results = []
 
@@ -102,7 +98,7 @@ def fetch_and_filter(search_cfg: dict, email_cfg: dict) -> list[dict]:
             seen.add(key)
             unique.append(r)
 
-    # Filter out false positives using QC agent
+    # Filter out false positives
     relevance = audit_keyword_relevance(unique)
     filtered = []
     for r, rel in zip(unique, relevance):
@@ -124,7 +120,7 @@ def fetch_and_filter(search_cfg: dict, email_cfg: dict) -> list[dict]:
 
 
 # ---------------------------------------------------------------------------
-# Build scope summary (same logic as dashboard)
+# Scope summary
 # ---------------------------------------------------------------------------
 
 _NOISE = re.compile(
@@ -219,7 +215,6 @@ def build_email_html(results: list[dict], date_range: str) -> str:
         link = r.get("link", "#")
         bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
 
-        # Closing date urgency colour
         closing_style = f"color:{BRAND_GREY};"
         if closing and not closing.startswith("0001") and not closing.startswith("9999"):
             try:
@@ -258,7 +253,6 @@ def build_email_html(results: list[dict], date_range: str) -> str:
 
     return f"""
     <div style="font-family:Roboto,Arial,sans-serif; max-width:900px; margin:0 auto; padding:20px;">
-        <!-- Header -->
         <div style="background:linear-gradient(135deg,{BRAND_BLUE},#3d5a73); padding:20px 24px; border-radius:8px 8px 0 0;">
             <h1 style="color:white; margin:0; font-size:20px; font-family:Georgia,serif;">
                 Government Contracts — Weekly Report
@@ -268,14 +262,12 @@ def build_email_html(results: list[dict], date_range: str) -> str:
             </p>
         </div>
 
-        <!-- Summary bar -->
-        <div style="background:#f0f2f6; padding:12px 24px; display:flex; gap:30px; font-size:13px; color:{BRAND_BLUE};">
-            <span><strong>{len(results)}</strong> opportunities</span>
-            <span><strong>{sum(1 for r in results if r.get('source')=='Contracts Finder')}</strong> from CF</span>
-            <span><strong>{sum(1 for r in results if r.get('source')=='Find a Tender')}</strong> from FaT</span>
+        <div style="background:#f0f2f6; padding:12px 24px; font-size:13px; color:{BRAND_BLUE};">
+            <strong>{len(results)}</strong> opportunities &nbsp;&bull;&nbsp;
+            <strong>{sum(1 for r in results if r.get('source')=='Contracts Finder')}</strong> from CF &nbsp;&bull;&nbsp;
+            <strong>{sum(1 for r in results if r.get('source')=='Find a Tender')}</strong> from FaT
         </div>
 
-        <!-- Table -->
         <table style="width:100%; border-collapse:collapse; font-size:13px;">
             <thead>
                 <tr style="background:{BRAND_BLUE}; color:white; text-align:left;">
@@ -291,7 +283,6 @@ def build_email_html(results: list[dict], date_range: str) -> str:
             </tbody>
         </table>
 
-        <!-- Footer -->
         <div style="padding:16px 24px; background:#f8f9fa; border-radius:0 0 8px 8px; text-align:center;">
             <p style="margin:0; font-size:12px; color:{BRAND_GREY};">
                 Inference Group &bull; Automated Gov Contract Finder &bull;
@@ -305,38 +296,48 @@ def build_email_html(results: list[dict], date_range: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Send email
+# Send email via SendGrid
 # ---------------------------------------------------------------------------
 
-def send_email(html_body: str, recipients: list[str], subject: str):
-    """Send HTML email via SMTP."""
-    smtp_host = os.environ.get("SMTP_HOST", "smtp.office365.com")
-    smtp_port = int(os.environ.get("SMTP_PORT", "587"))
-    smtp_user = os.environ.get("SMTP_USER", "")
-    smtp_pass = os.environ.get("SMTP_PASSWORD", "")
+SENDGRID_API_URL = "https://api.sendgrid.com/v3/mail/send"
 
-    if not smtp_user or not smtp_pass:
+
+def send_email(html_body: str, recipients: list[str], subject: str, from_email: str):
+    """Send HTML email via SendGrid API."""
+    api_key = os.environ.get("SENDGRID_API_KEY", "")
+
+    if not api_key:
         raise RuntimeError(
-            "SMTP_USER and SMTP_PASSWORD environment variables are required. "
-            "Set them as GitHub Actions secrets."
+            "SENDGRID_API_KEY environment variable is required. "
+            "Set it as a GitHub Actions secret."
         )
 
-    msg = MIMEMultipart("alternative")
-    msg["From"] = smtp_user
-    msg["To"] = ", ".join(recipients)
-    msg["Subject"] = subject
+    payload = {
+        "personalizations": [
+            {"to": [{"email": addr} for addr in recipients]}
+        ],
+        "from": {"email": from_email, "name": "Inference Gov Contracts"},
+        "subject": subject,
+        "content": [
+            {"type": "text/plain", "value": "View this email in an HTML-compatible client, or open the dashboard."},
+            {"type": "text/html", "value": html_body},
+        ],
+    }
 
-    # Plain text fallback
-    plain = "View this email in an HTML-compatible email client, or open the dashboard."
-    msg.attach(MIMEText(plain, "plain"))
-    msg.attach(MIMEText(html_body, "html"))
+    resp = http_requests.post(
+        SENDGRID_API_URL,
+        json=payload,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        timeout=30,
+    )
 
-    with smtplib.SMTP(smtp_host, smtp_port) as server:
-        server.starttls()
-        server.login(smtp_user, smtp_pass)
-        server.sendmail(smtp_user, recipients, msg.as_string())
+    if resp.status_code not in (200, 201, 202):
+        raise RuntimeError(f"SendGrid error {resp.status_code}: {resp.text}")
 
-    print(f"Email sent to {', '.join(recipients)}")
+    print(f"Email sent to {', '.join(recipients)} (SendGrid {resp.status_code})")
 
 
 # ---------------------------------------------------------------------------
@@ -356,8 +357,9 @@ def main():
 
     html = build_email_html(results, date_range)
 
+    from_email = email_cfg.get("from_email", "contracts@inferencegroup.com")
     recipients = email_cfg["recipients"]
-    send_email(html, recipients, subject)
+    send_email(html, recipients, subject, from_email)
 
     print("Done.")
 

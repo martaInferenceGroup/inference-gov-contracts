@@ -1,5 +1,6 @@
 {
   "recipients": ["marta@inferencegroup.com"],
+  "from_email": "contracts@inferencegroup.com",
   "subject_prefix": "Inference Group — Weekly Gov Contracts",
   "criteria": {
     "max_value": 500000,
