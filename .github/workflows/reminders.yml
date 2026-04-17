@@ -1,0 +1,94 @@
+name: Scheduled Reminders
+
+on:
+  schedule:
+    # Reminder: Refresh MS token (~80 days from Apr 17 = July 6, 2026)
+    - cron: '0 9 6 7 *'
+    # Reminder: UK clocks go back - adjust email time (Oct 19, 2026)
+    - cron: '0 9 19 10 *'
+
+jobs:
+  send-reminder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Send reminder
+        env:
+          MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
+          MS_TENANT_ID: ${{ secrets.MS_TENANT_ID }}
+          MS_REFRESH_TOKEN: ${{ secrets.MS_REFRESH_TOKEN }}
+        run: |
+          python -c "
+          import os, requests
+          from datetime import datetime
+
+          # Get access token
+          resp = requests.post(
+              f'https://login.microsoftonline.com/{os.environ[\"MS_TENANT_ID\"]}/oauth2/v2.0/token',
+              data={
+                  'client_id': os.environ['MS_CLIENT_ID'],
+                  'grant_type': 'refresh_token',
+                  'refresh_token': os.environ['MS_REFRESH_TOKEN'],
+                  'scope': 'https://graph.microsoft.com/Mail.Send offline_access',
+              },
+          )
+          token = resp.json()['access_token']
+
+          month = datetime.now().month
+          if month == 7:
+              subject = 'Reminder: Renew Microsoft Token for Gov Contracts Email'
+              body = '''<div style=\"font-family:Arial,sans-serif; max-width:600px; margin:0 auto; padding:20px;\">
+                  <h2 style=\"color:#30475E;\">Token Renewal Needed</h2>
+                  <p>The Microsoft refresh token for the weekly Gov Contracts email expires soon (~90 days).</p>
+                  <h3>What to do:</h3>
+                  <ol>
+                      <li>Open a terminal on your machine</li>
+                      <li>Navigate to the Automated_gov_contracts folder</li>
+                      <li>Run: <code>python scripts/get_ms_token.py</code></li>
+                      <li>Sign in when prompted</li>
+                      <li>Copy the new refresh token</li>
+                      <li>Go to <a href=\"https://github.com/martaInferenceGroup/inference-gov-contracts/settings/secrets/actions\">GitHub Secrets</a></li>
+                      <li>Update <strong>MS_REFRESH_TOKEN</strong> with the new value</li>
+                  </ol>
+                  <p style=\"color:#6b7785; font-size:12px;\">This takes about 2 minutes. If you don\\'t do this, the Friday email will stop working.</p>
+              </div>'''
+          else:
+              subject = 'Reminder: Adjust Gov Contracts Email Time for GMT'
+              body = '''<div style=\"font-family:Arial,sans-serif; max-width:600px; margin:0 auto; padding:20px;\">
+                  <h2 style=\"color:#30475E;\">Clock Change — Email Time Adjustment</h2>
+                  <p>UK clocks go back to GMT this month. The weekly Gov Contracts email will arrive at <strong>7:30 AM</strong> instead of 8:30 AM until the clocks go forward again.</p>
+                  <h3>To fix (optional):</h3>
+                  <p>Update the cron schedule in <code>.github/workflows/weekly-contracts.yml</code> from:</p>
+                  <code>cron: \\'30 7 * * 5\\'</code> &rarr; <code>cron: \\'30 8 * * 5\\'</code>
+                  <p>Remember to change it back in March when clocks go forward.</p>
+                  <p style=\"color:#6b7785; font-size:12px;\">Or just ignore this — the email will still send, just an hour earlier.</p>
+              </div>'''
+
+          # Send only to Marta
+          payload = {
+              'message': {
+                  'subject': subject,
+                  'body': {'contentType': 'HTML', 'content': body},
+                  'toRecipients': [{'emailAddress': {'address': 'marta@inferencegroup.com'}}],
+              },
+              'saveToSentItems': 'true',
+          }
+
+          r = requests.post(
+              'https://graph.microsoft.com/v1.0/me/sendMail',
+              json=payload,
+              headers={'Authorization': f'Bearer {token}', 'Content-Type': 'application/json'},
+          )
+          print(f'Reminder sent: {r.status_code}')
+          "
