@@ -429,7 +429,7 @@ def main():
     date_range = datetime.now().strftime('%d %b %Y')
 
     if results:
-        subject = f"[Action Required] {len(results)} Open AI & Data Gov Contracts Under \u00a3500k — {date_range}"
+        subject = f"{len(results)} Open AI & Data Gov Contracts Under \u00a3500k — {date_range}"
     else:
         subject = f"Weekly Gov Contracts — No New Opportunities — {date_range}"
 
