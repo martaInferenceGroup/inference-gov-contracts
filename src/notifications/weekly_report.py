@@ -193,18 +193,33 @@ BRAND_GREY = "#6b7785"
 
 
 def build_email_html(results: list[dict], date_range: str) -> str:
-    """Build a branded HTML email with the contract list."""
+    """Build a dashboard-style branded HTML email."""
+
+    cf_count = sum(1 for r in results if r.get("source") == "Contracts Finder")
+    fat_count = sum(1 for r in results if r.get("source") == "Find a Tender")
+    has_val = [r["total_value"] for r in results if r.get("total_value")]
+    avg_val = f"&pound;{sum(has_val)/len(has_val):,.0f}" if has_val else "N/A"
 
     if not results:
         return f"""
         <div style="font-family:Roboto,Arial,sans-serif; max-width:700px; margin:0 auto; padding:20px;">
-            <div style="background:{BRAND_BLUE}; padding:20px; border-radius:8px; text-align:center;">
-                <h1 style="color:white; margin:0; font-size:20px;">Inference Group — Weekly Contracts</h1>
-                <p style="color:{BRAND_GREY}; margin:5px 0 0;">No new matching contracts found this week ({date_range})</p>
+            <div style="background:linear-gradient(135deg,{BRAND_BLUE},#3d5a73); padding:24px; border-radius:8px; text-align:center;">
+                <h1 style="color:white; margin:0; font-size:20px; font-family:Georgia,serif;">Government Contracts Dashboard</h1>
+                <p style="color:#70BAD0; margin:8px 0 0; font-size:13px;">No matching open contracts found — {date_range}</p>
             </div>
         </div>
         """
 
+    # Metric cards
+    metric_style = (
+        "display:inline-block; background:#ffffff; border:1px solid #e2e6ea; "
+        f"border-left:4px solid {BRAND_BLUE}; border-radius:8px; padding:12px 20px; "
+        "margin:0 8px; min-width:120px; text-align:center;"
+    )
+    label_style = f"font-size:11px; color:{BRAND_BLUE}; font-weight:500; text-transform:uppercase; letter-spacing:0.5px;"
+    value_style = f"font-size:22px; color:{BRAND_BLUE}; font-weight:700; margin-top:4px;"
+
+    # Contract rows
     rows = ""
     for i, r in enumerate(results):
         scope = html_mod.escape(_summarise(r))
@@ -214,10 +229,12 @@ def build_email_html(results: list[dict], date_range: str) -> str:
         val_str = f"&pound;{value:,.0f}" if value else "TBC"
         closing = r.get("closing_date", "")
         closing_str = closing if closing and not closing.startswith("0001") else "TBC"
+        ct = r.get("ct", "")
         source = r.get("source", "")
         link = r.get("link", "#")
         bg = "#ffffff" if i % 2 == 0 else "#f8f9fa"
 
+        # Closing date urgency
         closing_style = f"color:{BRAND_GREY};"
         if closing and not closing.startswith("0001") and not closing.startswith("9999"):
             try:
@@ -229,56 +246,79 @@ def build_email_html(results: list[dict], date_range: str) -> str:
             except ValueError:
                 pass
 
+        # Type badge
+        type_color = BRAND_BLUE if ct == "Contract" else "#00a3ad" if ct == "Tender" else "#705E81"
+
         rows += f"""
         <tr style="background:{bg};">
-            <td style="padding:12px; border-bottom:1px solid #eee; vertical-align:top;">
-                <a href="{link}" style="color:{BRAND_BLUE}; font-weight:600; text-decoration:none; font-size:14px;">
+            <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; width:40%;">
+                <a href="{link}" style="color:{BRAND_BLUE}; font-weight:600; text-decoration:none; font-size:14px; line-height:1.3;">
                     {title}
                 </a>
-                <div style="color:{BRAND_GREY}; font-size:12px; margin-top:4px;">
+                <div style="color:{BRAND_GREY}; font-size:12px; margin-top:6px; line-height:1.4;">
                     {scope}
                 </div>
             </td>
-            <td style="padding:12px; border-bottom:1px solid #eee; vertical-align:top; white-space:nowrap; font-size:13px;">
+            <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; font-size:13px;">
                 {buyer}
             </td>
-            <td style="padding:12px; border-bottom:1px solid #eee; vertical-align:top; white-space:nowrap; font-size:13px;">
+            <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; font-size:13px; white-space:nowrap;">
                 {val_str}
             </td>
-            <td style="padding:12px; border-bottom:1px solid #eee; vertical-align:top; white-space:nowrap; font-size:13px; {closing_style}">
+            <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; font-size:13px; white-space:nowrap; {closing_style}">
                 {closing_str}
             </td>
-            <td style="padding:12px; border-bottom:1px solid #eee; vertical-align:top; white-space:nowrap; font-size:12px; color:{BRAND_GREY};">
+            <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; font-size:12px; white-space:nowrap;">
+                <span style="background:{type_color}15; color:{type_color}; padding:2px 8px; border-radius:10px; font-size:11px;">{ct}</span>
+            </td>
+            <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; font-size:12px; color:{BRAND_GREY}; white-space:nowrap;">
                 {source}
             </td>
         </tr>
         """
 
     return f"""
-    <div style="font-family:Roboto,Arial,sans-serif; max-width:900px; margin:0 auto; padding:20px;">
-        <div style="background:linear-gradient(135deg,{BRAND_BLUE},#3d5a73); padding:20px 24px; border-radius:8px 8px 0 0;">
-            <h1 style="color:white; margin:0; font-size:20px; font-family:Georgia,serif;">
-                Government Contracts — Weekly Report
+    <div style="font-family:Roboto,Arial,sans-serif; max-width:960px; margin:0 auto;">
+        <!-- Header -->
+        <div style="background:linear-gradient(135deg,{BRAND_BLUE},#3d5a73); padding:24px 28px; border-radius:10px 10px 0 0;">
+            <h1 style="color:white; margin:0; font-size:22px; font-family:Georgia,serif;">
+                Government Contracts Dashboard
             </h1>
-            <p style="color:#70BAD0; margin:5px 0 0; font-size:13px;">
-                {len(results)} matching opportunities &bull; {date_range} &bull; Sorted by closing date
+            <p style="color:#70BAD0; margin:6px 0 0; font-size:13px;">
+                Open AI &amp; Data opportunities under &pound;500k &bull; {date_range} &bull; Sorted by closing date
             </p>
         </div>
 
-        <div style="background:#f0f2f6; padding:12px 24px; font-size:13px; color:{BRAND_BLUE};">
-            <strong>{len(results)}</strong> opportunities &nbsp;&bull;&nbsp;
-            <strong>{sum(1 for r in results if r.get('source')=='Contracts Finder')}</strong> from CF &nbsp;&bull;&nbsp;
-            <strong>{sum(1 for r in results if r.get('source')=='Find a Tender')}</strong> from FaT
+        <!-- Metric cards -->
+        <div style="background:#f0f2f6; padding:16px 20px; text-align:center;">
+            <div style="{metric_style}">
+                <div style="{label_style}">Total</div>
+                <div style="{value_style}">{len(results)}</div>
+            </div>
+            <div style="{metric_style}">
+                <div style="{label_style}">Contracts Finder</div>
+                <div style="{value_style}">{cf_count}</div>
+            </div>
+            <div style="{metric_style}">
+                <div style="{label_style}">Find a Tender</div>
+                <div style="{value_style}">{fat_count}</div>
+            </div>
+            <div style="{metric_style}">
+                <div style="{label_style}">Avg Value</div>
+                <div style="{value_style}">{avg_val}</div>
+            </div>
         </div>
 
-        <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <!-- Results table -->
+        <table style="width:100%; border-collapse:collapse; font-size:13px; background:white;">
             <thead>
                 <tr style="background:{BRAND_BLUE}; color:white; text-align:left;">
-                    <th style="padding:10px 12px; font-weight:500;">Contract</th>
-                    <th style="padding:10px 12px; font-weight:500;">Buyer</th>
-                    <th style="padding:10px 12px; font-weight:500;">Value</th>
-                    <th style="padding:10px 12px; font-weight:500;">Closes</th>
-                    <th style="padding:10px 12px; font-weight:500;">Source</th>
+                    <th style="padding:12px; font-weight:500;">Contract &amp; Summary</th>
+                    <th style="padding:12px; font-weight:500;">Buyer</th>
+                    <th style="padding:12px; font-weight:500;">Value</th>
+                    <th style="padding:12px; font-weight:500;">Closes</th>
+                    <th style="padding:12px; font-weight:500;">Type</th>
+                    <th style="padding:12px; font-weight:500;">Source</th>
                 </tr>
             </thead>
             <tbody>
@@ -286,12 +326,14 @@ def build_email_html(results: list[dict], date_range: str) -> str:
             </tbody>
         </table>
 
-        <div style="padding:16px 24px; background:#f8f9fa; border-radius:0 0 8px 8px; text-align:center;">
-            <p style="margin:0; font-size:12px; color:{BRAND_GREY};">
-                Inference Group &bull; Automated Gov Contract Finder &bull;
-                <a href="https://inference-gov-contracts.streamlit.app" style="color:{BRAND_ORANGE};">
-                    Open Dashboard
-                </a>
+        <!-- Footer -->
+        <div style="padding:18px 28px; background:#f8f9fa; border-radius:0 0 10px 10px; text-align:center;">
+            <a href="https://inference-gov-contracts.streamlit.app"
+               style="display:inline-block; background:{BRAND_ORANGE}; color:white; padding:10px 24px; border-radius:6px; text-decoration:none; font-weight:600; font-size:14px;">
+                Open Full Dashboard
+            </a>
+            <p style="margin:12px 0 0; font-size:11px; color:{BRAND_GREY};">
+                Inference Group &bull; Automated Gov Contract Finder &bull; Sent every Friday
             </p>
         </div>
     </div>
@@ -384,8 +426,12 @@ def main():
     results = fetch_and_filter(search_cfg, email_cfg)
     print(f"\n{len(results)} contracts after filtering")
 
-    date_range = f"{(datetime.now() - timedelta(days=7)).strftime('%d %b')} — {datetime.now().strftime('%d %b %Y')}"
-    subject = f"{email_cfg['subject_prefix']} — {len(results)} opportunities ({date_range})"
+    date_range = datetime.now().strftime('%d %b %Y')
+
+    if results:
+        subject = f"[Action Required] {len(results)} Open AI & Data Gov Contracts Under \u00a3500k — {date_range}"
+    else:
+        subject = f"Weekly Gov Contracts — No New Opportunities — {date_range}"
 
     html = build_email_html(results, date_range)
 
