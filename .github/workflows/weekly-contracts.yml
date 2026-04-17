@@ -2,8 +2,8 @@ name: Weekly Contract Report
 
 on:
   schedule:
-    # Every Friday at 8:00 AM UTC
-    - cron: '0 8 * * 5'
+    # Every Friday at 8:30 AM UK time (7:30 UTC in BST, 8:30 UTC in GMT)
+    - cron: '30 7 * * 5'
   workflow_dispatch: # Allow manual trigger from GitHub UI
 
 jobs:
