@@ -1,5 +1,5 @@
 {
-  "recipients": ["marta@inferencegroup.com"],
+  "recipients": ["marta@inferencegroup.com", "anna@inferencegroup.com"],
   "from_email": "marta@inferencegroup.com",
   "subject_prefix": "Inference Group — Weekly Gov Contracts",
   "criteria": {
