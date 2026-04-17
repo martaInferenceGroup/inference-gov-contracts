@@ -2,10 +2,12 @@ name: Scheduled Reminders
 
 on:
   schedule:
-    # Reminder: Refresh MS token (~80 days from Apr 17 = July 6, 2026)
-    - cron: '0 9 6 7 *'
-    # Reminder: UK clocks go back - adjust email time (Oct 19, 2026)
-    - cron: '0 9 19 10 *'
+    # Token renewal reminder — every 80 days (1st of Jan, Mar, May, Jul, Sep, Nov)
+    - cron: '0 9 1 1,3,5,7,9,11 *'
+    # UK clocks go back (last Sunday of October) — remind week before
+    - cron: '0 9 20 10 *'
+    # UK clocks go forward (last Sunday of March) — remind week before
+    - cron: '0 9 20 3 *'
 
 jobs:
   send-reminder:
@@ -46,12 +48,12 @@ jobs:
           token = resp.json()['access_token']
 
           month = datetime.now().month
-          if month == 7:
+          if month in (1, 3, 5, 7, 9, 11):
               subject = 'Reminder: Renew Microsoft Token for Gov Contracts Email'
               body = '''<div style=\"font-family:Arial,sans-serif; max-width:600px; margin:0 auto; padding:20px;\">
                   <h2 style=\"color:#30475E;\">Token Renewal Needed</h2>
-                  <p>The Microsoft refresh token for the weekly Gov Contracts email expires soon (~90 days).</p>
-                  <h3>What to do:</h3>
+                  <p>The Microsoft refresh token for the weekly Gov Contracts email should be renewed every ~80 days to prevent expiry.</p>
+                  <h3>What to do (2 minutes):</h3>
                   <ol>
                       <li>Open a terminal on your machine</li>
                       <li>Navigate to the Automated_gov_contracts folder</li>
@@ -61,19 +63,29 @@ jobs:
                       <li>Go to <a href=\"https://github.com/martaInferenceGroup/inference-gov-contracts/settings/secrets/actions\">GitHub Secrets</a></li>
                       <li>Update <strong>MS_REFRESH_TOKEN</strong> with the new value</li>
                   </ol>
-                  <p style=\"color:#6b7785; font-size:12px;\">This takes about 2 minutes. If you don\\'t do this, the Friday email will stop working.</p>
+                  <p style=\"color:#6b7785; font-size:12px;\">If you don\\'t do this, the Friday email will eventually stop working.</p>
+              </div>'''
+          elif month == 10:
+              subject = 'Reminder: UK Clocks Going Back — Adjust Gov Contracts Email'
+              body = '''<div style=\"font-family:Arial,sans-serif; max-width:600px; margin:0 auto; padding:20px;\">
+                  <h2 style=\"color:#30475E;\">Clock Change — BST to GMT</h2>
+                  <p>UK clocks go back this month. The weekly Gov Contracts email will arrive at <strong>7:30 AM</strong> instead of 8:30 AM.</p>
+                  <h3>To keep 8:30 AM delivery:</h3>
+                  <p>Edit <code>.github/workflows/weekly-contracts.yml</code> and change:</p>
+                  <p><code>cron: \\'30 7 * * 5\\'</code> &rarr; <code>cron: \\'30 8 * * 5\\'</code></p>
+                  <p style=\"color:#6b7785; font-size:12px;\">Or ignore — the email still sends, just one hour earlier.</p>
+              </div>'''
+          elif month == 3:
+              subject = 'Reminder: UK Clocks Going Forward — Adjust Gov Contracts Email'
+              body = '''<div style=\"font-family:Arial,sans-serif; max-width:600px; margin:0 auto; padding:20px;\">
+                  <h2 style=\"color:#30475E;\">Clock Change — GMT to BST</h2>
+                  <p>UK clocks go forward this month. If you adjusted the cron in October, change it back now:</p>
+                  <p><code>cron: \\'30 8 * * 5\\'</code> &rarr; <code>cron: \\'30 7 * * 5\\'</code></p>
+                  <p>This keeps the email arriving at <strong>8:30 AM BST</strong>.</p>
+                  <p style=\"color:#6b7785; font-size:12px;\">If you never changed it in October, ignore this.</p>
               </div>'''
           else:
-              subject = 'Reminder: Adjust Gov Contracts Email Time for GMT'
-              body = '''<div style=\"font-family:Arial,sans-serif; max-width:600px; margin:0 auto; padding:20px;\">
-                  <h2 style=\"color:#30475E;\">Clock Change — Email Time Adjustment</h2>
-                  <p>UK clocks go back to GMT this month. The weekly Gov Contracts email will arrive at <strong>7:30 AM</strong> instead of 8:30 AM until the clocks go forward again.</p>
-                  <h3>To fix (optional):</h3>
-                  <p>Update the cron schedule in <code>.github/workflows/weekly-contracts.yml</code> from:</p>
-                  <code>cron: \\'30 7 * * 5\\'</code> &rarr; <code>cron: \\'30 8 * * 5\\'</code>
-                  <p>Remember to change it back in March when clocks go forward.</p>
-                  <p style=\"color:#6b7785; font-size:12px;\">Or just ignore this — the email will still send, just an hour earlier.</p>
-              </div>'''
+              exit(0)
 
           # Send only to Marta
           payload = {
