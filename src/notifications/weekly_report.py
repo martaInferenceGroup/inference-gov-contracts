@@ -1,13 +1,16 @@
 """
 Weekly Gov Contracts Email Report
 ==================================
-Searches both portals, filters to criteria, and sends an HTML email via SendGrid.
+Searches both portals, filters to criteria, and sends an HTML email
+via Microsoft Graph API (sends as your Outlook account).
 
 Run manually:  python -m src.notifications.weekly_report
 Scheduled via: GitHub Actions (.github/workflows/weekly-contracts.yml)
 
-Requires environment variable:
-    SENDGRID_API_KEY  — from https://app.sendgrid.com/settings/api_keys
+Requires environment variables:
+    MS_CLIENT_ID      — Azure AD app client ID
+    MS_TENANT_ID      — Azure AD tenant ID
+    MS_REFRESH_TOKEN  — OAuth2 refresh token (from scripts/get_ms_token.py)
 """
 
 import json
@@ -296,48 +299,77 @@ def build_email_html(results: list[dict], date_range: str) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Send email via SendGrid
+# Microsoft Graph email
 # ---------------------------------------------------------------------------
 
-SENDGRID_API_URL = "https://api.sendgrid.com/v3/mail/send"
+def _get_access_token() -> str:
+    """Exchange refresh token for a fresh access token."""
+    client_id = os.environ.get("MS_CLIENT_ID", "")
+    tenant_id = os.environ.get("MS_TENANT_ID", "")
+    refresh_token = os.environ.get("MS_REFRESH_TOKEN", "")
+
+    if not all([client_id, tenant_id, refresh_token]):
+        raise RuntimeError(
+            "MS_CLIENT_ID, MS_TENANT_ID, and MS_REFRESH_TOKEN environment variables are required."
+        )
+
+    resp = http_requests.post(
+        f"https://login.microsoftonline.com/{tenant_id}/oauth2/v2.0/token",
+        data={
+            "client_id": client_id,
+            "grant_type": "refresh_token",
+            "refresh_token": refresh_token,
+            "scope": "https://graph.microsoft.com/Mail.Send offline_access",
+        },
+        timeout=30,
+    )
+
+    if resp.status_code != 200:
+        raise RuntimeError(f"Token refresh failed ({resp.status_code}): {resp.text}")
+
+    data = resp.json()
+
+    # Print new refresh token if rotated (for manual update)
+    new_refresh = data.get("refresh_token")
+    if new_refresh and new_refresh != refresh_token:
+        print("NOTE: Refresh token was rotated. Update MS_REFRESH_TOKEN secret with:")
+        print(new_refresh)
+
+    return data["access_token"]
 
 
 def send_email(html_body: str, recipients: list[str], subject: str, from_email: str):
-    """Send HTML email via SendGrid API."""
-    api_key = os.environ.get("SENDGRID_API_KEY", "")
-
-    if not api_key:
-        raise RuntimeError(
-            "SENDGRID_API_KEY environment variable is required. "
-            "Set it as a GitHub Actions secret."
-        )
+    """Send HTML email via Microsoft Graph API."""
+    access_token = _get_access_token()
 
     payload = {
-        "personalizations": [
-            {"to": [{"email": addr} for addr in recipients]}
-        ],
-        "from": {"email": from_email, "name": "Inference Gov Contracts"},
-        "subject": subject,
-        "content": [
-            {"type": "text/plain", "value": "View this email in an HTML-compatible client, or open the dashboard."},
-            {"type": "text/html", "value": html_body},
-        ],
+        "message": {
+            "subject": subject,
+            "body": {
+                "contentType": "HTML",
+                "content": html_body,
+            },
+            "toRecipients": [
+                {"emailAddress": {"address": addr}} for addr in recipients
+            ],
+        },
+        "saveToSentItems": "true",
     }
 
     resp = http_requests.post(
-        SENDGRID_API_URL,
+        f"https://graph.microsoft.com/v1.0/me/sendMail",
         json=payload,
         headers={
-            "Authorization": f"Bearer {api_key}",
+            "Authorization": f"Bearer {access_token}",
             "Content-Type": "application/json",
         },
         timeout=30,
     )
 
-    if resp.status_code not in (200, 201, 202):
-        raise RuntimeError(f"SendGrid error {resp.status_code}: {resp.text}")
+    if resp.status_code != 202:
+        raise RuntimeError(f"Graph sendMail error ({resp.status_code}): {resp.text}")
 
-    print(f"Email sent to {', '.join(recipients)} (SendGrid {resp.status_code})")
+    print(f"Email sent to {', '.join(recipients)} via Microsoft Graph")
 
 
 # ---------------------------------------------------------------------------
@@ -357,7 +389,7 @@ def main():
 
     html = build_email_html(results, date_range)
 
-    from_email = email_cfg.get("from_email", "contracts@inferencegroup.com")
+    from_email = email_cfg.get("from_email", "marta@inferencegroup.com")
     recipients = email_cfg["recipients"]
     send_email(html, recipients, subject, from_email)
 
