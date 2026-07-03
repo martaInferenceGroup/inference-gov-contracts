@@ -56,7 +56,7 @@
     "73110000"
   ],
   "default_filters": {
-    "published_days_back": 30,
+    "published_days_back": 90,
     "min_value": 25000,
     "max_value": null,
     "location": null,

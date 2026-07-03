@@ -128,3 +128,127 @@ def _normalise(item: dict, source: str) -> dict:
         "location": item.get("regionText", item.get("region", "")),
         "link": link,
     }
+
+
+def fetch_full_notice(notice_id: str) -> dict | None:
+    """Fetch the complete notice detail for a single contract.
+
+    Returns a rich dict with all available fields including:
+    - Full description, award criteria, contact details
+    - Attached document links
+    - Procurement timeline and procedure type
+    - All raw fields from the API
+
+    Returns None if the notice is not found.
+    """
+    session = _session()
+
+    # The V2 API lets us search by notice ID to get full detail
+    payload = {
+        "searchCriteria": {"keyword": f'"{notice_id}"'},
+        "size": 5,
+    }
+    resp = session.post(API_URL, json=payload, timeout=30)
+    resp.raise_for_status()
+    data = resp.json()
+
+    # Find the exact notice in results
+    for entry in data.get("noticeList", []):
+        item = entry.get("item", {})
+        if item.get("id") == notice_id:
+            return _extract_full_notice(item)
+
+    # Fallback: also try the notice page HTML for extra detail
+    try:
+        page_url = f"https://www.contractsfinder.service.gov.uk/Notice/{notice_id}"
+        page_resp = session.get(page_url, timeout=30)
+        if page_resp.status_code == 200:
+            return _extract_from_page(page_resp.text, notice_id)
+    except Exception:
+        pass
+
+    return None
+
+
+def _extract_full_notice(item: dict) -> dict:
+    """Extract all useful fields from a V2 API notice item."""
+    base = _normalise(item, "Contracts Finder")
+
+    # Additional fields not in the normalised output
+    base["full_description"] = html_mod.unescape(item.get("description", ""))
+    base["contact_name"] = item.get("contactName", "")
+    base["contact_email"] = item.get("contactEmail", "")
+    base["contact_phone"] = item.get("contactPhone", "")
+    base["procedure_type"] = item.get("procedureType", "")
+    base["award_criteria"] = item.get("awardCriteria", "")
+    base["award_criteria_detail"] = item.get("awardCriteriaDetails", "")
+    base["suitable_for_sme"] = item.get("suitableForSme", None)
+    base["suitable_for_vcse"] = item.get("suitableForVcse", None)
+    base["start_date"] = (item.get("startDate") or "")[:10]
+    base["end_date"] = (item.get("endDate") or "")[:10]
+    base["duration_months"] = item.get("durationMonths")
+
+    # Document attachments
+    documents = []
+    for doc in item.get("documents", []):
+        documents.append({
+            "name": doc.get("fileName", ""),
+            "description": doc.get("description", ""),
+            "url": doc.get("url", ""),
+        })
+    for doc in item.get("attachments", []):
+        documents.append({
+            "name": doc.get("fileName", doc.get("name", "")),
+            "description": doc.get("description", ""),
+            "url": doc.get("url", doc.get("href", "")),
+        })
+    base["documents"] = documents
+
+    # Additional info sections
+    base["additional_text"] = item.get("additionalText", "")
+    base["lot_details"] = item.get("lots", [])
+
+    # Raw item preserved for anything we missed
+    base["_raw"] = item
+
+    return base
+
+
+def _extract_from_page(html_text: str, notice_id: str) -> dict:
+    """Fallback: extract notice details from the HTML page."""
+    import re
+
+    result = {
+        "source": "Contracts Finder",
+        "ocid": notice_id,
+        "link": f"https://www.contractsfinder.service.gov.uk/Notice/{notice_id}",
+        "full_description": "",
+        "documents": [],
+    }
+
+    # Extract text content between common section headers
+    # Title
+    title_match = re.search(r'<h1[^>]*>(.*?)</h1>', html_text, re.DOTALL)
+    if title_match:
+        result["title"] = html_mod.unescape(re.sub(r'<[^>]+>', '', title_match.group(1)).strip())
+
+    # Description — usually in a div after "Description" header
+    desc_match = re.search(
+        r'(?:Description|About the contract)</(?:h[23]|dt)>\s*<(?:div|dd)[^>]*>(.*?)</(?:div|dd)>',
+        html_text, re.DOTALL | re.IGNORECASE
+    )
+    if desc_match:
+        desc = re.sub(r'<[^>]+>', ' ', desc_match.group(1))
+        result["full_description"] = html_mod.unescape(desc).strip()
+
+    # Document links
+    for doc_match in re.finditer(
+        r'href="([^"]*)"[^>]*>\s*(.*?)\s*</a>',
+        html_text, re.DOTALL
+    ):
+        url, name = doc_match.groups()
+        name = re.sub(r'<[^>]+>', '', name).strip()
+        if any(ext in url.lower() for ext in ('.pdf', '.doc', '.docx', '.xls', '.xlsx', '.zip')):
+            result["documents"].append({"name": name, "url": url, "description": ""})
+
+    return result

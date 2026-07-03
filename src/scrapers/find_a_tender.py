@@ -36,10 +36,18 @@ def _session() -> requests.Session:
 
 
 def _parse_date(s: str) -> str:
-    """Convert '31 March 2026' to '2026-03-31'. Returns original if parsing fails."""
+    """Convert '31 March 2026' or '7 May 2026, 11:59pm' to '2026-03-31'.
+
+    Strips trailing time components before parsing. Returns original if
+    parsing fails completely.
+    """
+    if not s or not s.strip():
+        return s
+    # Strip trailing time parts: ", 11:59pm", ", 10:00am", etc.
+    cleaned = re.sub(r",?\s*\d{1,2}[:.]\d{2}\s*(?:am|pm|AM|PM)?$", "", s.strip())
     for fmt in ("%d %B %Y", "%d %b %Y", "%Y-%m-%d"):
         try:
-            return datetime.strptime(s.strip(), fmt).strftime("%Y-%m-%d")
+            return datetime.strptime(cleaned.strip(), fmt).strftime("%Y-%m-%d")
         except (ValueError, AttributeError):
             continue
     return s
@@ -165,7 +173,40 @@ def fetch_notices(keywords: list[str], max_pages: int = 5,
 
         page += 1
 
+    # Health check: validate results
+    issues = validate_results(all_results)
+    if issues:
+        for issue in issues:
+            print(f"  FaT warning: {issue}")
+
     return all_results
+
+
+def validate_results(results: list[dict]) -> list[str]:
+    """Check scraped results for signs of breakage.
+
+    Returns a list of warning messages (empty = healthy).
+    """
+    issues = []
+
+    if not results:
+        issues.append("FaT returned 0 results — possible scraping issue or no matches")
+        return issues
+
+    # Check for empty critical fields
+    empty_titles = sum(1 for r in results if not r.get("title"))
+    empty_buyers = sum(1 for r in results if not r.get("buyer"))
+    empty_links = sum(1 for r in results if not r.get("link"))
+
+    total = len(results)
+    if empty_titles > total * 0.5:
+        issues.append(f"{empty_titles}/{total} results have empty titles — HTML structure may have changed")
+    if empty_buyers > total * 0.5:
+        issues.append(f"{empty_buyers}/{total} results have empty buyers — HTML structure may have changed")
+    if empty_links > total * 0.5:
+        issues.append(f"{empty_links}/{total} results have empty links — HTML structure may have changed")
+
+    return issues
 
 
 def _parse_results_page(soup: BeautifulSoup) -> list[dict]:

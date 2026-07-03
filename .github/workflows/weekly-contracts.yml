@@ -6,6 +6,9 @@ on:
     - cron: '30 7 * * 5'
   workflow_dispatch: # Allow manual trigger from GitHub UI
 
+permissions:
+  contents: write  # Needed to commit tracking data back to repo
+
 jobs:
   send-report:
     runs-on: ubuntu-latest
@@ -28,3 +31,39 @@ jobs:
           MS_TENANT_ID: ${{ secrets.MS_TENANT_ID }}
           MS_REFRESH_TOKEN: ${{ secrets.MS_REFRESH_TOKEN }}
         run: python -m src.notifications.weekly_report
+
+      - name: Commit tracking data
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/tracking/contracts.json data/processed/weekly_*.json
+          git diff --staged --quiet || git commit -m "Update contract tracking data [skip ci]"
+          git push
+
+      - name: Alert on failure
+        if: failure()
+        env:
+          MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
+          MS_TENANT_ID: ${{ secrets.MS_TENANT_ID }}
+          MS_REFRESH_TOKEN: ${{ secrets.MS_REFRESH_TOKEN }}
+        run: |
+          python -c "
+          import os, sys
+          sys.path.insert(0, '.')
+          try:
+              from src.notifications.weekly_report import send_email, _get_access_token
+              send_email(
+                  '<div style=\"font-family:Roboto,sans-serif;padding:20px;\">'
+                  '<h2 style=\"color:#dc3545;\">Weekly Contract Report Failed</h2>'
+                  '<p>The scheduled weekly report did not send successfully.</p>'
+                  '<p>Check <a href=\"https://github.com/${{ github.repository }}/actions\">GitHub Actions</a> for details.</p>'
+                  '</div>',
+                  recipients=['marta@inferencegroup.com'],
+                  subject='[Alert] Weekly Gov Contracts Report Failed',
+                  from_email='marta@inferencegroup.com',
+              )
+              print('Failure alert sent.')
+          except Exception as e:
+              print(f'Could not send failure alert: {e}')
+          "

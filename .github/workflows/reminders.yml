@@ -2,8 +2,9 @@ name: Scheduled Reminders
 
 on:
   schedule:
-    # Token renewal reminder — every 80 days (1st of Jan, Mar, May, Jul, Sep, Nov)
-    - cron: '0 9 1 1,3,5,7,9,11 *'
+    # Token renewal reminder — every ~3 weeks (1st and 21st of each month)
+    # Token expires every 30 days, so reminding every 20 days catches it in time
+    - cron: '0 9 1,21 * *'
     # UK clocks go back (last Sunday of October) — remind week before
     - cron: '0 9 20 10 *'
     # UK clocks go forward (last Sunday of March) — remind week before
@@ -48,7 +49,8 @@ jobs:
           token = resp.json()['access_token']
 
           month = datetime.now().month
-          if month in (1, 3, 5, 7, 9, 11):
+          day = datetime.now().day
+          if day in (1, 21) and month not in (3, 10):
               subject = 'Reminder: Renew Microsoft Token for Gov Contracts Email'
               body = '''<div style=\"font-family:Arial,sans-serif; max-width:600px; margin:0 auto; padding:20px;\">
                   <h2 style=\"color:#30475E;\">Token Renewal Needed</h2>

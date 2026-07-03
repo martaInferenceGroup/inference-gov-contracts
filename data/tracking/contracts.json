@@ -1,0 +1,162 @@
+{
+  "6d467306-936b-4d55-b317-4d25908b13a9": {
+    "ocid": "6d467306-936b-4d55-b317-4d25908b13a9",
+    "title": "CA17598 - Proposition Design Consultancy Services for Digital & AI Skills building",
+    "buyer": "The King&#039;s Trust",
+    "source": "Contracts Finder",
+    "closing_date": "2026-05-11",
+    "total_value": 0,
+    "link": "https://www.contractsfinder.service.gov.uk/Notice/6d467306-936b-4d55-b317-4d25908b13a9",
+    "fit_score": 1,
+    "status": "skipped",
+    "first_seen": "2026-04-20",
+    "last_seen": "2026-04-20",
+    "status_history": [
+      {"status": "new", "date": "2026-04-20", "by": "system"},
+      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
+      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "013737-2026": {
+    "ocid": "013737-2026",
+    "title": "SOL30245 AI Delivery Partner - Phase 1 Discovery 2026",
+    "buyer": "Solihull Metropolitan Borough Council",
+    "source": "Find a Tender",
+    "closing_date": "2026-02-25",
+    "total_value": 360000.0,
+    "link": "https://www.find-tender.service.gov.uk/Notice/013737-2026?origin=SearchResults&p=1",
+    "fit_score": 5,
+    "status": "skipped",
+    "first_seen": "2026-04-20",
+    "last_seen": "2026-04-20",
+    "status_history": [
+      {"status": "new", "date": "2026-04-20", "by": "system"},
+      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
+      {"status": "drafting", "date": "2026-04-20", "by": "system", "reason": "Draft pipeline started"},
+      {"status": "drafting", "date": "2026-04-20", "by": "system", "reason": "Draft completed (3 sections)"},
+      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "021719-2026": {
+    "ocid": "021719-2026",
+    "title": "Together in Data Programme",
+    "buyer": "PLATFORM HOUSING LIMITED",
+    "source": "Find a Tender",
+    "closing_date": "2026-03-25",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/021719-2026?origin=SearchResults&p=1",
+    "fit_score": 3,
+    "status": "skipped",
+    "first_seen": "2026-04-20",
+    "last_seen": "2026-04-20",
+    "status_history": [
+      {"status": "new", "date": "2026-04-20", "by": "system"},
+      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
+      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "013160-2026": {
+    "ocid": "013160-2026",
+    "title": "Pre-Market Engagement AI Solution for Social Services Recording",
+    "buyer": "Flintshire County Council",
+    "source": "Find a Tender",
+    "closing_date": "2026-02-26",
+    "total_value": 1.0,
+    "link": "https://www.find-tender.service.gov.uk/Notice/013160-2026?origin=SearchResults&p=1",
+    "fit_score": 3,
+    "status": "skipped",
+    "first_seen": "2026-04-20",
+    "last_seen": "2026-04-20",
+    "status_history": [
+      {"status": "new", "date": "2026-04-20", "by": "system"},
+      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
+      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "027732-2026": {
+    "ocid": "027732-2026",
+    "title": "360 Tenant Experience Portal",
+    "buyer": "Thirteen Housing Group Limited",
+    "source": "Find a Tender",
+    "closing_date": "2026-05-30",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/027732-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "skipped",
+    "first_seen": "2026-04-20",
+    "last_seen": "2026-04-20",
+    "status_history": [
+      {"status": "new", "date": "2026-04-20", "by": "system"},
+      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
+      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "026897-2026": {
+    "ocid": "026897-2026",
+    "title": "Employment support products for JCS",
+    "buyer": "Department for Work & Pensions",
+    "source": "Find a Tender",
+    "closing_date": "2026-09-30",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/026897-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-04-20",
+    "last_seen": "2026-04-20",
+    "status_history": [
+      {"status": "new", "date": "2026-04-20", "by": "system"},
+      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"}
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "015095-2026": {
+    "ocid": "015095-2026",
+    "title": "NPTC - Telephone Systems",
+    "buyer": "NPTC Group of Colleges",
+    "source": "Find a Tender",
+    "closing_date": "2026-03-06",
+    "total_value": 480000.0,
+    "link": "https://www.find-tender.service.gov.uk/Notice/015095-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "skipped",
+    "first_seen": "2026-04-20",
+    "last_seen": "2026-04-20",
+    "status_history": [
+      {"status": "new", "date": "2026-04-20", "by": "system"},
+      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
+      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "031171-2026": {
+    "ocid": "031171-2026",
+    "title": "MSK Physiotherapy AI Service",
+    "buyer": "KENT COMMUNITY HEALTH NHS FOUNDATION TRUST",
+    "source": "Find a Tender",
+    "closing_date": "",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/031171-2026?origin=SearchResults&p=1",
+    "fit_score": 3,
+    "status": "seen",
+    "first_seen": "2026-04-20",
+    "last_seen": "2026-04-20",
+    "status_history": [
+      {"status": "new", "date": "2026-04-20", "by": "system"},
+      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"}
+    ],
+    "draft_id": null,
+    "notes": ""
+  }
+}

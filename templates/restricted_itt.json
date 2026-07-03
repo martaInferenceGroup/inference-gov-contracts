@@ -1,0 +1,93 @@
+{
+  "type": "restricted_itt",
+  "name": "Restricted Procedure — Invitation to Tender (Stage 2)",
+  "description": "Second stage of a restricted procedure. You have been shortlisted from the SQ and are now submitting a full quality response. Focus entirely on how you'd deliver — eligibility is already proven.",
+  "submission_notes": "Issued only to shortlisted suppliers. Strict deadline. The buyer has already assessed your capability at SQ stage, so this response should focus on quality of approach, not proving you exist.",
+  "evaluation_method": "MAT — quality method statements scored 0-5 per question with descriptors. Price usually 20-40% weighting. Social value 10%. Quality questions often have individual minimum thresholds (e.g. must score 3+ on each).",
+  "sections": [
+    {
+      "id": "understanding",
+      "name": "Understanding of Requirements",
+      "required": true,
+      "default_word_limit": 1000,
+      "reusable": false,
+      "guidance": "Demonstrate you understand what the buyer actually needs — not just restating the spec. Show insight into the buyer's challenges, context, and what success looks like. Reference their strategic objectives if mentioned in the tender docs. This shows you've read the brief carefully and thought about their problem, not just your solution."
+    },
+    {
+      "id": "methodology",
+      "name": "Methodology & Delivery Approach",
+      "required": true,
+      "default_word_limit": 2000,
+      "reusable": false,
+      "guidance": "The highest-weighted section. Describe exactly how you'd deliver this contract. Structure as delivery phases with clear outputs, governance, and decision points. Reference GDS standards where applicable. Include sprint cadence, show-and-tells, and stakeholder engagement. Must be specific to this contract — generic methodology will score poorly."
+    },
+    {
+      "id": "experience",
+      "name": "Relevant Experience & Evidence",
+      "required": true,
+      "default_word_limit": 1500,
+      "reusable": false,
+      "reusable_content_key": "case_studies",
+      "guidance": "Even though capability was proven at SQ, ITT experience questions focus on relevance and depth. Select case studies that most closely match this contract's scope. Provide measurable outcomes. If possible, reference the same case studies from SQ to show consistency, but add more detail."
+    },
+    {
+      "id": "team",
+      "name": "Proposed Team & Resource Plan",
+      "required": true,
+      "default_word_limit": 1000,
+      "reusable": false,
+      "reusable_content_key": "team_profiles",
+      "guidance": "Named team with CVs. Show role-to-deliverable mapping. Include a RACI matrix if appropriate. The buyer wants to see the actual people who'll do the work, not generic roles. Be specific about allocation (% time or days per week)."
+    },
+    {
+      "id": "social_value",
+      "name": "Social Value",
+      "required": true,
+      "default_word_limit": 1000,
+      "reusable": true,
+      "reusable_content_key": "social_value",
+      "guidance": "Address the Social Value Model themes. Must include measurable, monitorable commitments. Reference the Business AI Alliance. Tailor commitments to the buyer's locality and sector where possible."
+    },
+    {
+      "id": "risk_management",
+      "name": "Risk Management",
+      "required": true,
+      "default_word_limit": 800,
+      "reusable": false,
+      "guidance": "Contract-specific risks with mitigations. Show proactive risk management. Include AI-specific risks (data quality, model drift, ethical concerns, bias) and delivery risks. Table format: risk, likelihood, impact, mitigation, owner."
+    },
+    {
+      "id": "mobilisation",
+      "name": "Mobilisation & Transition",
+      "required": true,
+      "default_word_limit": 600,
+      "reusable": false,
+      "guidance": "How you'd get started. First 2-4 weeks: kick-off, stakeholder mapping, data access, environment setup, knowledge transfer. Show that you can mobilise quickly and hit the ground running."
+    },
+    {
+      "id": "innovation",
+      "name": "Innovation & Added Value",
+      "required": false,
+      "default_word_limit": 500,
+      "reusable": false,
+      "guidance": "What you bring beyond the minimum. Thought leadership, knowledge transfer, training, reusable IP, open-source contributions. Keep proportionate to contract value."
+    },
+    {
+      "id": "pricing",
+      "name": "Pricing Schedule",
+      "required": true,
+      "default_word_limit": null,
+      "reusable": false,
+      "guidance": "SKELETON ONLY — requires human judgement. Rate card with role/grade breakdown. The buyer may provide a pricing template — always use their format. Mark all figures as [TO BE COMPLETED BY TEAM]."
+    }
+  ],
+  "documents_typically_required": [
+    "Quality response document (this application)",
+    "Completed pricing schedule (buyer's template)",
+    "Team CVs for all named individuals",
+    "Project plan / Gantt chart",
+    "Social value delivery plan",
+    "Risk register",
+    "Method statement(s)"
+  ]
+}

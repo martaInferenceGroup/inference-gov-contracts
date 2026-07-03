@@ -1,0 +1,56 @@
+{
+  "application_types": {
+    "open_procedure": {
+      "name": "Open Procedure",
+      "description": "Single-stage tender — any supplier submits SQ + full ITT response together. Most common route for contracts found on Contracts Finder and Find a Tender.",
+      "when_to_use": "Default for most contracts. Used below and above threshold.",
+      "template": "open_procedure.json",
+      "typical_timeline_days": 25,
+      "evaluation_method": "MAT (Most Advantageous Tender) — typically 60% quality / 30% price / 10% social value"
+    },
+    "restricted_sq": {
+      "name": "Restricted Procedure — Selection Questionnaire",
+      "description": "Stage 1 of restricted procedure. Submit SQ to demonstrate eligibility and capability. Shortlisted suppliers (typically 5-8) proceed to ITT stage.",
+      "when_to_use": "When the notice mentions 'restricted procedure', 'PQQ', 'pre-qualification', or 'selection questionnaire' as Stage 1.",
+      "template": "restricted_sq.json",
+      "typical_timeline_days": 30,
+      "evaluation_method": "Pass/fail on exclusion grounds + scored selection criteria (experience, capability, financial standing)"
+    },
+    "restricted_itt": {
+      "name": "Restricted Procedure — Invitation to Tender",
+      "description": "Stage 2 of restricted procedure. Full quality response + pricing, issued only to shortlisted suppliers after SQ stage.",
+      "when_to_use": "When you have been shortlisted from an SQ and receive an ITT invitation.",
+      "template": "restricted_itt.json",
+      "typical_timeline_days": 20,
+      "evaluation_method": "MAT — quality method statements scored 0-5 per question with descriptors, plus pricing"
+    },
+    "below_threshold": {
+      "name": "Below-Threshold / Simplified Procedure",
+      "description": "Lighter-touch procurement for contracts under ~£213k (services threshold). Fewer formal requirements, often just a proposal document + pricing.",
+      "when_to_use": "Contracts under £213k with simpler requirements, or where the notice uses language like 'quotation', 'proposal', or 'expression of interest'.",
+      "template": "below_threshold.json",
+      "typical_timeline_days": 14,
+      "evaluation_method": "Varies — may be quality/price split, best value, or quality-only"
+    }
+  },
+  "detection_rules": {
+    "restricted_itt": {
+      "keywords": ["invitation to tender", "ITT", "Stage 2", "shortlisted suppliers", "shortlisted bidders"],
+      "priority": 1
+    },
+    "restricted_sq": {
+      "keywords": ["selection questionnaire", "SQ", "PQQ", "pre-qualification", "pre qualification", "restricted procedure", "Stage 1"],
+      "priority": 2
+    },
+    "below_threshold": {
+      "max_value": 213000,
+      "keywords": ["quotation", "request for quote", "RFQ", "expression of interest", "EOI", "informal tender"],
+      "priority": 3
+    },
+    "open_procedure": {
+      "keywords": [],
+      "priority": 99,
+      "note": "Default — used when no other type matches"
+    }
+  }
+}

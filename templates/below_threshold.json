@@ -1,0 +1,76 @@
+{
+  "type": "below_threshold",
+  "name": "Below-Threshold / Simplified Proposal",
+  "description": "Lighter-touch response for contracts under ~£213k. Often structured as a proposal document rather than formal ITT. Fewer mandatory sections, more flexibility in format.",
+  "submission_notes": "May be submitted via portal, email, or document upload. Format is often less prescribed — a well-structured PDF proposal can work. Check the notice for specific submission instructions.",
+  "evaluation_method": "Varies widely — quality/price split, best value assessment, or quality-only. Below-threshold procurements have more flexibility in evaluation methodology.",
+  "sections": [
+    {
+      "id": "company_overview",
+      "name": "About Inference Group",
+      "required": true,
+      "default_word_limit": 400,
+      "reusable": true,
+      "reusable_content_key": "company_overview",
+      "guidance": "Brief company introduction tailored to the buyer's sector. Include: who we are, what we do, team size, key differentiators. Lighter touch than formal SQ — this is a proposal, not a compliance document."
+    },
+    {
+      "id": "understanding",
+      "name": "Understanding of Your Needs",
+      "required": true,
+      "default_word_limit": 500,
+      "reusable": false,
+      "guidance": "Show you understand the buyer's problem and context. For below-threshold contracts, this is often the differentiator between a generic quote and a thoughtful proposal. Reference their specific situation."
+    },
+    {
+      "id": "methodology",
+      "name": "Proposed Approach",
+      "required": true,
+      "default_word_limit": 1000,
+      "reusable": false,
+      "guidance": "How you'd deliver the work. Can be less formal than a full ITT methodology — focus on clarity and practicality. Include key deliverables, timeline, and how you'd work with the buyer's team. GDS phases still relevant but can be lighter touch."
+    },
+    {
+      "id": "experience",
+      "name": "Why Inference Group",
+      "required": true,
+      "default_word_limit": 800,
+      "reusable": false,
+      "reusable_content_key": "case_studies",
+      "guidance": "1-2 relevant examples of similar work. Focus on outcomes and relevance rather than formal case study structure. Frame around why Inference Group is the right fit for this specific piece of work."
+    },
+    {
+      "id": "team",
+      "name": "Your Team",
+      "required": true,
+      "default_word_limit": 400,
+      "reusable": false,
+      "reusable_content_key": "team_profiles",
+      "guidance": "Who would work on this. Brief bios of key people. For smaller contracts, 1-2 named individuals is usually sufficient. Show they have the right skills and availability."
+    },
+    {
+      "id": "pricing",
+      "name": "Pricing & Commercial",
+      "required": true,
+      "default_word_limit": null,
+      "reusable": false,
+      "guidance": "SKELETON ONLY — requires human input. For below-threshold, a simple table (deliverable, effort, cost) often suffices. Consider whether fixed price or T&M is more appropriate. Mark all figures as [TO BE COMPLETED BY TEAM]."
+    },
+    {
+      "id": "social_value",
+      "name": "Social Value",
+      "required": false,
+      "default_word_limit": 400,
+      "reusable": true,
+      "reusable_content_key": "social_value",
+      "guidance": "May not be required for below-threshold but including brief commitments shows good practice. Keep it short and proportionate — 2-3 concrete commitments rather than a full social value plan."
+    }
+  ],
+  "documents_typically_required": [
+    "Proposal document (this application)",
+    "Pricing breakdown",
+    "Professional Indemnity insurance certificate",
+    "Cyber Essentials certificate (if handling sensitive data)",
+    "Brief company profile or capability statement"
+  ]
+}

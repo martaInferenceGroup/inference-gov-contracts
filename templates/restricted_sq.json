@@ -1,0 +1,84 @@
+{
+  "type": "restricted_sq",
+  "name": "Restricted Procedure — Selection Questionnaire (Stage 1)",
+  "description": "First stage of a restricted procedure. Demonstrates eligibility and capability to be shortlisted for the ITT. Focus is on proving you can do the work, not how you'd do it.",
+  "submission_notes": "Submitted via buyer's portal. This is a pass/fail + scored shortlisting exercise. Typically 5-8 suppliers are shortlisted from all SQ submissions.",
+  "evaluation_method": "Part 1-2: Pass/fail (exclusion grounds, eligibility). Part 3: Scored selection criteria — financial standing, technical capability, relevant experience. Top scorers proceed to ITT.",
+  "sections": [
+    {
+      "id": "company_overview",
+      "name": "Company Information",
+      "required": true,
+      "default_word_limit": 300,
+      "reusable": true,
+      "reusable_content_key": "company_overview",
+      "guidance": "Factual company information: legal name, registration number, address, VAT number, year established, number of employees, annual turnover. This is usually a form-fill, not prose."
+    },
+    {
+      "id": "exclusion_grounds",
+      "name": "Exclusion Grounds Declaration",
+      "required": true,
+      "default_word_limit": null,
+      "reusable": true,
+      "guidance": "Standard declarations on mandatory and discretionary exclusion grounds under the Procurement Act 2023. Covers: criminal convictions, tax compliance, insolvency, professional misconduct, conflicts of interest. Usually yes/no form responses. Draft standard declarations — Inference Group should be able to answer 'No' to all mandatory exclusion grounds."
+    },
+    {
+      "id": "financial_standing",
+      "name": "Economic & Financial Standing",
+      "required": true,
+      "default_word_limit": 300,
+      "reusable": true,
+      "guidance": "Demonstrate financial viability. Typically requires: last 2-3 years' turnover, relevant insurance coverage (PI, PL, EL with minimum values), bank reference. For a ~14-person consultancy, be transparent about size while emphasising stability and founder track record."
+    },
+    {
+      "id": "experience",
+      "name": "Technical & Professional Capability",
+      "required": true,
+      "default_word_limit": 1500,
+      "reusable": false,
+      "reusable_content_key": "case_studies",
+      "guidance": "The most important scored section. Provide 2-3 relevant case studies demonstrating capability to deliver this type of work. Each case study should include: client name (if permitted), contract value, dates, scope, your role, outcomes/results, and a referee contact. Select case studies that match the buyer's sector and the contract's technical requirements."
+    },
+    {
+      "id": "team_capability",
+      "name": "Team Capability & Resources",
+      "required": true,
+      "default_word_limit": 500,
+      "reusable": false,
+      "reusable_content_key": "team_profiles",
+      "guidance": "Demonstrate you have the team to deliver. Summarise key personnel (Richard Davis, Tim Linsell) with relevant qualifications and experience. Show you have capacity — reference total team size and ability to scale. Don't over-commit named individuals."
+    },
+    {
+      "id": "quality_assurance",
+      "name": "Quality Management & Certifications",
+      "required": true,
+      "default_word_limit": 400,
+      "reusable": true,
+      "reusable_content_key": "quality_assurance",
+      "guidance": "Reference quality management systems, certifications held (Cyber Essentials, ISO 27001 if applicable), and quality processes. Buyers use this to assess organisational maturity. Be honest about what you hold — don't claim certifications you don't have."
+    },
+    {
+      "id": "policies",
+      "name": "Policy Compliance",
+      "required": true,
+      "default_word_limit": 300,
+      "reusable": true,
+      "reusable_content_key": "policies",
+      "guidance": "Confirm policies are in place: equality & diversity, environmental/sustainability, data protection/GDPR, modern slavery, health & safety. Usually yes/no with brief description. Reference the Business AI Alliance for responsible AI governance."
+    }
+  ],
+  "documents_typically_required": [
+    "Company registration certificate or Companies House extract",
+    "Last 2-3 years' audited accounts or management accounts",
+    "Professional Indemnity insurance certificate (min £1m typical)",
+    "Public Liability insurance certificate (min £5m typical)",
+    "Employer's Liability insurance certificate (min £5m typical)",
+    "Cyber Essentials certificate",
+    "Case study references (2-3, with referee contact details)",
+    "Equality & diversity policy",
+    "Environmental policy",
+    "Data protection / GDPR policy",
+    "Modern slavery statement",
+    "Health & safety policy"
+  ]
+}

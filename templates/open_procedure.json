@@ -1,0 +1,110 @@
+{
+  "type": "open_procedure",
+  "name": "Open Procedure — Full Tender Response",
+  "description": "Complete SQ + ITT quality response for an open procedure tender. This is the most common application type for contracts found on Contracts Finder and Find a Tender.",
+  "submission_notes": "Submitted via buyer's e-procurement portal. Usually requires document upload + portal form fields. Strict deadline — late submissions are rejected.",
+  "evaluation_method": "Most Advantageous Tender (MAT). Typical split: 60% quality / 30% price / 10% social value. Quality scored 0-5 per question with descriptors.",
+  "sections": [
+    {
+      "id": "company_overview",
+      "name": "Company Overview",
+      "required": true,
+      "default_word_limit": 500,
+      "reusable": true,
+      "reusable_content_key": "company_overview",
+      "guidance": "Standard company introduction. Tailor the opening paragraph to reference the buyer's sector and the contract's focus area. Keep factual and concise — this section is usually pass/fail, not scored."
+    },
+    {
+      "id": "experience",
+      "name": "Relevant Experience & Case Studies",
+      "required": true,
+      "default_word_limit": 1500,
+      "reusable": false,
+      "reusable_content_key": "case_studies",
+      "guidance": "Select 2-3 case studies most relevant to this contract's sector and requirements. Structure each as: Client context → What we did → Outcome/impact. Connect experience directly to the buyer's needs. Be honest — frame founder experience appropriately (e.g. 'Our CEO, as CDO at Ofcom, led...' not 'Inference Group delivered for Ofcom')."
+    },
+    {
+      "id": "methodology",
+      "name": "Methodology & Approach",
+      "required": true,
+      "default_word_limit": 2000,
+      "reusable": false,
+      "guidance": "Describe how Inference Group would deliver this specific contract. Structure as phases (Discovery → Alpha → Beta → Live) where applicable. Include governance, reporting cadence, stakeholder engagement approach. Reference agile delivery and GDS standards. Be specific to the contract scope — not generic. This is usually the highest-weighted quality question."
+    },
+    {
+      "id": "team",
+      "name": "Proposed Team & Resource Plan",
+      "required": true,
+      "default_word_limit": 1000,
+      "reusable": false,
+      "reusable_content_key": "team_profiles",
+      "guidance": "Propose a realistic team structure for this contract's scope and value. Name Richard Davis and Tim Linsell where appropriate with brief bios. For other roles, describe the profile and seniority without naming. Include a role/responsibility matrix. Be realistic about team size — Inference Group is ~14 people."
+    },
+    {
+      "id": "social_value",
+      "name": "Social Value",
+      "required": true,
+      "default_word_limit": 1000,
+      "reusable": true,
+      "reusable_content_key": "social_value",
+      "guidance": "Address the Social Value Model themes (PPN 06/20, minimum 10% weighting). Include measurable commitments. Mention the Business AI Alliance. Keep proportionate to contract value. Reusable base content with light contract-specific customisation."
+    },
+    {
+      "id": "quality_assurance",
+      "name": "Quality Assurance & Information Security",
+      "required": true,
+      "default_word_limit": 800,
+      "reusable": true,
+      "reusable_content_key": "quality_assurance",
+      "guidance": "Describe QA processes for AI/data deliverables. Cover: code review, testing, model validation, data quality checks. Address GDPR, information security. Mention relevant certifications. Include AI-specific quality: bias testing, explainability, monitoring."
+    },
+    {
+      "id": "risk_management",
+      "name": "Risk Management",
+      "required": true,
+      "default_word_limit": 800,
+      "reusable": false,
+      "guidance": "Identify 4-6 realistic risks specific to this contract. For each: description, likelihood, impact, mitigation. Include AI-specific risks (data quality, model drift, ethical concerns) and delivery risks (scope creep, stakeholder availability, data access). Table format works well."
+    },
+    {
+      "id": "mobilisation",
+      "name": "Mobilisation & Transition Plan",
+      "required": false,
+      "default_word_limit": 600,
+      "reusable": false,
+      "guidance": "Outline the first 2-4 weeks: kick-off meeting, stakeholder mapping, data access, environment setup. Include knowledge transfer approach. Show how SME agility enables fast mobilisation."
+    },
+    {
+      "id": "innovation",
+      "name": "Innovation & Added Value",
+      "required": false,
+      "default_word_limit": 500,
+      "reusable": false,
+      "guidance": "What Inference Group brings beyond the minimum: latest AI techniques, knowledge transfer, training, reusable frameworks. Reference the Business AI Alliance and 'Under the Inference' podcast. Keep proportionate — don't over-promise."
+    },
+    {
+      "id": "pricing",
+      "name": "Pricing Schedule",
+      "required": true,
+      "default_word_limit": null,
+      "reusable": false,
+      "guidance": "SKELETON ONLY — requires human judgement. Provide rate card structure (role, day rate placeholder, estimated days), suggest pricing model (fixed price, T&M, capped T&M), and flag contract-specific pricing considerations. Mark all figures as [TO BE COMPLETED BY TEAM]."
+    }
+  ],
+  "documents_typically_required": [
+    "Completed Selection Questionnaire (SQ / SPD)",
+    "Case studies (2-3, usually with template provided by buyer)",
+    "Team CVs for named individuals",
+    "Pricing schedule (buyer's format)",
+    "Cyber Essentials certificate",
+    "Professional Indemnity insurance certificate",
+    "Public Liability insurance certificate",
+    "Employer's Liability insurance certificate",
+    "Equality & diversity policy",
+    "Environmental / sustainability policy",
+    "Data protection / GDPR policy",
+    "Modern slavery statement",
+    "Health & safety policy",
+    "Business continuity plan"
+  ]
+}

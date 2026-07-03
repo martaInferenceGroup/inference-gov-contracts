@@ -1,0 +1,87 @@
+{
+  "_comment": "Fit scoring calibrated to Inference Group (TCN Capital). ~14 person AI/data consultancy, incorporated Apr 2024. Core: AI strategy, data engineering, MLOps, AI governance, executive training. Founders ex-Ofcom CDO, ex-Lloyds Banking Group, ex-REPL Group (sold to Accenture). Team has G-Cloud/DOS framework experience.",
+
+  "strong_signals": [
+    "AI strategy", "AI consulting", "AI advisory", "AI governance",
+    "data strategy", "data platform", "data engineering",
+    "data pipeline", "ML pipeline", "MLOps", "AIOps",
+    "AI roadmap", "data roadmap", "AI maturity", "AI readiness",
+    "discovery phase", "discovery", "alpha phase", "proof of concept", "PoC", "MVP", "pilot",
+    "AI implementation", "AI delivery", "AI partner", "AI discovery",
+    "delivery partner", "AI service", "AI solution",
+    "data science", "analytics consulting", "analytics strategy",
+    "GenAI", "generative AI", "LLM", "large language model", "agentic",
+    "NLP", "natural language processing",
+    "RAG", "retrieval augmented generation",
+    "chatbot", "virtual assistant", "conversational AI",
+    "predictive analytics", "advanced analytics",
+    "AI training", "AI upskilling", "digital upskilling", "AI literacy",
+    "AI use case", "AI feasibility", "technical feasibility",
+    "supply chain analytics", "supply chain AI", "supply chain optimisation",
+    "data driven", "data-driven strategy",
+    "G-Cloud", "Digital Outcomes and Specialists", "DOS framework"
+  ],
+
+  "moderate_signals": [
+    "data analytics", "data analysis", "business intelligence",
+    "dashboard", "reporting", "visualisation", "visualization",
+    "digital transformation", "data transformation",
+    "digital services", "digital delivery",
+    "machine learning", "deep learning", "computer vision",
+    "cloud migration", "cloud platform",
+    "automation", "process automation",
+    "agile delivery", "agile consultancy",
+    "data migration", "data integration", "ETL",
+    "data governance", "data quality", "data management",
+    "programme management", "delivery management",
+    "beta phase", "live phase"
+  ],
+
+  "weak_signals": [
+    "hardware", "infrastructure", "networking", "cabling",
+    "construction", "building", "facilities management",
+    "cleaning", "catering", "waste management",
+    "transport", "logistics", "fleet",
+    "medical equipment", "clinical", "pharmaceutical",
+    "legal services", "audit services", "insurance",
+    "print", "stationery", "furniture",
+    "security clearance", "SC cleared", "DV cleared",
+    "large scale system integration", "ERP implementation",
+    "managed service", "outsource", "outsourcing",
+    "100+ team", "200+ team"
+  ],
+
+  "ideal_value_range": {
+    "min": 25000,
+    "max": 250000,
+    "stretch_max": 500000,
+    "comment": "Sweet spot £25k-£250k. Can stretch to £500k but less competitive. Below £25k not worth the bid effort."
+  },
+
+  "buyer_bonus": [
+    "NHS", "health", "council", "local authority", "borough council",
+    "county council", "metropolitan", "city council",
+    "Ofcom", "telecoms", "regulator",
+    "department for", "ministry of", "HMRC",
+    "university", "education",
+    "retail", "supply chain"
+  ],
+
+  "buyer_penalty": [
+    "Ministry of Defence", "MoD", "defence",
+    "GCHQ", "intelligence", "secret intelligence"
+  ],
+
+  "weights": {
+    "strong_signal_title": 2.0,
+    "strong_signal_desc": 1.0,
+    "moderate_signal_title": 1.0,
+    "moderate_signal_desc": 0.5,
+    "weak_signal_penalty": -1.5,
+    "value_in_range_bonus": 0.5,
+    "value_stretch_penalty": -0.25,
+    "value_out_of_range_penalty": -0.5,
+    "buyer_bonus": 0.5,
+    "buyer_penalty": -1.0
+  }
+}

@@ -1,0 +1,101 @@
+name: Draft Application
+
+on:
+  workflow_dispatch:
+    inputs:
+      contract_number:
+        description: 'Contract number from weekly email (e.g. 4 for #4)'
+        required: true
+        type: number
+      week_date:
+        description: 'Week date for snapshot (e.g. 2026-04-18). Leave empty for latest.'
+        required: false
+        type: string
+      test_mode:
+        description: 'Send draft to Marta only (test mode)'
+        required: false
+        type: boolean
+        default: true
+      template_type:
+        description: 'Application template (open_procedure, restricted_sq, restricted_itt, below_threshold). Leave empty for auto-detect.'
+        required: false
+        type: choice
+        options:
+          - ''
+          - open_procedure
+          - restricted_sq
+          - restricted_itt
+          - below_threshold
+
+permissions:
+  contents: write  # Needed to commit tracking updates
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 lxml anthropic
+
+      - name: Run drafting pipeline
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
+          MS_TENANT_ID: ${{ secrets.MS_TENANT_ID }}
+          MS_REFRESH_TOKEN: ${{ secrets.MS_REFRESH_TOKEN }}
+        run: |
+          ARGS="--contract ${{ inputs.contract_number }}"
+          if [ -n "${{ inputs.week_date }}" ]; then
+            ARGS="$ARGS --week ${{ inputs.week_date }}"
+          fi
+          if [ "${{ inputs.test_mode }}" = "true" ]; then
+            ARGS="$ARGS --test"
+          fi
+          if [ -n "${{ inputs.template_type }}" ]; then
+            ARGS="$ARGS --template ${{ inputs.template_type }}"
+          fi
+          python -m src.drafting.run_draft $ARGS
+
+      - name: Commit tracking updates
+        if: success()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/tracking/contracts.json
+          git diff --staged --quiet || git commit -m "Update tracking: draft sent for contract #${{ inputs.contract_number }} [skip ci]"
+          git push
+
+      - name: Alert on failure
+        if: failure()
+        env:
+          MS_CLIENT_ID: ${{ secrets.MS_CLIENT_ID }}
+          MS_TENANT_ID: ${{ secrets.MS_TENANT_ID }}
+          MS_REFRESH_TOKEN: ${{ secrets.MS_REFRESH_TOKEN }}
+        run: |
+          python -c "
+          import sys
+          sys.path.insert(0, '.')
+          try:
+              from src.notifications.weekly_report import send_email
+              send_email(
+                  '<div style=\"font-family:Roboto,sans-serif;padding:20px;\">'
+                  '<h2 style=\"color:#dc3545;\">Draft Application Failed</h2>'
+                  '<p>Drafting for contract #${{ inputs.contract_number }} failed.</p>'
+                  '<p>Check <a href=\"https://github.com/${{ github.repository }}/actions\">GitHub Actions</a> for details.</p>'
+                  '</div>',
+                  recipients=['marta@inferencegroup.com'],
+                  subject='[Alert] Draft Application Failed — Contract #${{ inputs.contract_number }}',
+                  from_email='marta@inferencegroup.com',
+              )
+          except Exception as e:
+              print(f'Could not send failure alert: {e}')
+          "
