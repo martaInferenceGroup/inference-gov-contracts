@@ -488,6 +488,12 @@ def build_email_html(results: list[dict], date_range: str,
             <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; font-size:12px; color:{BRAND_GREY}; white-space:nowrap;">
                 {source}
             </td>
+            <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; text-align:center;">
+                <a href="https://github.com/martaInferenceGroup/inference-gov-contracts/actions/workflows/draft-application.yml"
+                   style="display:inline-block; background:{BRAND_ORANGE}; color:white; padding:6px 12px;
+                   border-radius:6px; text-decoration:none; font-size:11px; font-weight:600;
+                   white-space:nowrap;">Draft&nbsp;#{num}</a>
+            </td>
         </tr>
         """
 
@@ -540,6 +546,7 @@ def build_email_html(results: list[dict], date_range: str,
                     <th style="padding:12px; font-weight:500;">Closes</th>
                     <th style="padding:12px; font-weight:500;">Type</th>
                     <th style="padding:12px; font-weight:500;">Source</th>
+                    <th style="padding:12px; font-weight:500;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -547,13 +554,18 @@ def build_email_html(results: list[dict], date_range: str,
             </tbody>
         </table>
 
+        <!-- Draft instructions -->
+        <div style="background:#f0f2f6; padding:14px 28px; border-top:1px solid #e2e6ea;">
+            <p style="margin:0; font-size:12px; color:{BRAND_BLUE}; line-height:1.5;">
+                <strong>To draft an application:</strong> Click a <span style="background:{BRAND_ORANGE}; color:white; padding:1px 6px; border-radius:4px; font-size:10px;">Draft</span> button above &rarr;
+                enter the contract number (e.g. <strong>4</strong> for #{'{'}4{'}'}) &rarr; click <strong>Run workflow</strong>.
+                The draft will be emailed to you for review.
+            </p>
+        </div>
+
         <!-- Footer -->
         <div style="padding:18px 28px; background:#f8f9fa; border-radius:0 0 10px 10px; text-align:center;">
-            <a href="https://inference-gov-contracts.streamlit.app"
-               style="display:inline-block; background:{BRAND_ORANGE}; color:white; padding:10px 24px; border-radius:6px; text-decoration:none; font-weight:600; font-size:14px;">
-                Open Full Dashboard
-            </a>
-            <p style="margin:12px 0 0; font-size:11px; color:{BRAND_GREY};">
+            <p style="margin:0; font-size:11px; color:{BRAND_GREY};">
                 Inference Group &bull; Automated Gov Contract Finder &bull; Sent every Friday
             </p>
         </div>

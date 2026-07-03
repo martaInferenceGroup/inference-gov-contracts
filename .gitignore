@@ -2,10 +2,11 @@
 config/credentials.*
 .env
 
-# Data
+# Data — raw is always ignored, processed snapshots and tracking are committed
 data/raw/*
-data/processed/*
 !data/raw/.gitkeep
+!data/tracking/
+!data/processed/weekly_*.json
 !data/processed/.gitkeep
 
 # Python
