@@ -12,9 +12,23 @@
     "first_seen": "2026-04-20",
     "last_seen": "2026-04-20",
     "status_history": [
-      {"status": "new", "date": "2026-04-20", "by": "system"},
-      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
-      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+      {
+        "status": "new",
+        "date": "2026-04-20",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "deadline passed"
+      }
     ],
     "draft_id": null,
     "notes": ""
@@ -32,11 +46,35 @@
     "first_seen": "2026-04-20",
     "last_seen": "2026-04-20",
     "status_history": [
-      {"status": "new", "date": "2026-04-20", "by": "system"},
-      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
-      {"status": "drafting", "date": "2026-04-20", "by": "system", "reason": "Draft pipeline started"},
-      {"status": "drafting", "date": "2026-04-20", "by": "system", "reason": "Draft completed (3 sections)"},
-      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+      {
+        "status": "new",
+        "date": "2026-04-20",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "included in weekly email"
+      },
+      {
+        "status": "drafting",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "Draft pipeline started"
+      },
+      {
+        "status": "drafting",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "Draft completed (3 sections)"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "deadline passed"
+      }
     ],
     "draft_id": null,
     "notes": ""
@@ -54,9 +92,23 @@
     "first_seen": "2026-04-20",
     "last_seen": "2026-04-20",
     "status_history": [
-      {"status": "new", "date": "2026-04-20", "by": "system"},
-      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
-      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+      {
+        "status": "new",
+        "date": "2026-04-20",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "deadline passed"
+      }
     ],
     "draft_id": null,
     "notes": ""
@@ -74,9 +126,23 @@
     "first_seen": "2026-04-20",
     "last_seen": "2026-04-20",
     "status_history": [
-      {"status": "new", "date": "2026-04-20", "by": "system"},
-      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
-      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+      {
+        "status": "new",
+        "date": "2026-04-20",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "deadline passed"
+      }
     ],
     "draft_id": null,
     "notes": ""
@@ -94,9 +160,23 @@
     "first_seen": "2026-04-20",
     "last_seen": "2026-04-20",
     "status_history": [
-      {"status": "new", "date": "2026-04-20", "by": "system"},
-      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
-      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+      {
+        "status": "new",
+        "date": "2026-04-20",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "deadline passed"
+      }
     ],
     "draft_id": null,
     "notes": ""
@@ -114,8 +194,17 @@
     "first_seen": "2026-04-20",
     "last_seen": "2026-04-20",
     "status_history": [
-      {"status": "new", "date": "2026-04-20", "by": "system"},
-      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"}
+      {
+        "status": "new",
+        "date": "2026-04-20",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
     ],
     "draft_id": null,
     "notes": ""
@@ -133,9 +222,23 @@
     "first_seen": "2026-04-20",
     "last_seen": "2026-04-20",
     "status_history": [
-      {"status": "new", "date": "2026-04-20", "by": "system"},
-      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"},
-      {"status": "skipped", "date": "2026-07-03", "by": "system", "reason": "deadline passed"}
+      {
+        "status": "new",
+        "date": "2026-04-20",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "deadline passed"
+      }
     ],
     "draft_id": null,
     "notes": ""
@@ -153,8 +256,101 @@
     "first_seen": "2026-04-20",
     "last_seen": "2026-04-20",
     "status_history": [
-      {"status": "new", "date": "2026-04-20", "by": "system"},
-      {"status": "seen", "date": "2026-04-20", "by": "system", "reason": "included in weekly email"}
+      {
+        "status": "new",
+        "date": "2026-04-20",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-04-20",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "056058-2026": {
+    "ocid": "056058-2026",
+    "title": "Institutional Readiness Assessment and AI Strategy Scoping",
+    "buyer": "York St John University",
+    "source": "Find a Tender",
+    "closing_date": "2026-07-03",
+    "total_value": 60000.0,
+    "link": "https://www.find-tender.service.gov.uk/Notice/056058-2026?origin=SearchResults&p=1",
+    "fit_score": 4,
+    "status": "seen",
+    "first_seen": "2026-07-03",
+    "last_seen": "2026-07-03",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-03",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "057601-2026": {
+    "ocid": "057601-2026",
+    "title": "Pre-market Engagement Notice for the Provision of Housing Management Software",
+    "buyer": "Denbighshire County Council",
+    "source": "Find a Tender",
+    "closing_date": "2026-07-31",
+    "total_value": 1.2,
+    "link": "https://www.find-tender.service.gov.uk/Notice/057601-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-07-03",
+    "last_seen": "2026-07-03",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-03",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "062438-2026": {
+    "ocid": "062438-2026",
+    "title": "Child Poverty Strategic Partnerships",
+    "buyer": "Department of Health & Social Care",
+    "source": "Find a Tender",
+    "closing_date": "2026-08-03",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/062438-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-07-03",
+    "last_seen": "2026-07-03",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-03",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-03",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
     ],
     "draft_id": null,
     "notes": ""
