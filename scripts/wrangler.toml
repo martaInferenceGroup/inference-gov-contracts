@@ -1,0 +1,9 @@
+# Cloudflare Worker config for the draft trigger webhook
+# Deploy: cd scripts && npx wrangler deploy
+name = "gov-contracts-draft"
+main = "draft-trigger-worker.js"
+compatibility_date = "2024-01-01"
+
+# After deploying, set secrets:
+#   npx wrangler secret put GITHUB_PAT
+#   npx wrangler secret put TRIGGER_SECRET

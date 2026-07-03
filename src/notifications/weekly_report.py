@@ -327,7 +327,8 @@ def build_email_html(results: list[dict], date_range: str,
                      new_ids: set[str] | None = None,
                      pipeline: dict[str, list[dict]] | None = None,
                      fit_scores: dict[str, int] | None = None,
-                     qc_flags: dict[str, list[str]] | None = None) -> str:
+                     qc_flags: dict[str, list[str]] | None = None,
+                     draft_trigger_url: str = "") -> str:
     """Build a dashboard-style branded HTML email.
 
     Args:
@@ -336,12 +337,14 @@ def build_email_html(results: list[dict], date_range: str,
         new_ids: Set of OCIDs that are new this week (get NEW badge).
         pipeline: Dict of status -> contracts for the pipeline section.
         fit_scores: Dict of OCID -> 1-5 fit score.
-        qc_flags: Dict of OCID -> list of short warning strings (e.g. ["Possible duplicate", "Missing: value"]).
+        qc_flags: Dict of OCID -> list of short warning strings.
+        draft_trigger_url: Base URL for one-click draft triggers (Cloudflare Worker).
     """
     new_ids = new_ids or set()
     pipeline = pipeline or {}
     fit_scores = fit_scores or {}
     qc_flags = qc_flags or {}
+    date_range_iso = datetime.now().strftime("%Y-%m-%d")
 
     cf_count = sum(1 for r in results if r.get("source") == "Contracts Finder")
     fat_count = sum(1 for r in results if r.get("source") == "Find a Tender")
@@ -488,12 +491,12 @@ def build_email_html(results: list[dict], date_range: str,
             <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; font-size:12px; color:{BRAND_GREY}; white-space:nowrap;">
                 {source}
             </td>
-            <td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; text-align:center;">
-                <a href="https://github.com/martaInferenceGroup/inference-gov-contracts/actions/workflows/draft-application.yml"
+            {f"""<td style="padding:14px 12px; border-bottom:1px solid #eee; vertical-align:top; text-align:center;">
+                <a href="{draft_trigger_url}/draft?contract={num}&week={date_range_iso}" target="_blank"
                    style="display:inline-block; background:{BRAND_ORANGE}; color:white; padding:6px 12px;
                    border-radius:6px; text-decoration:none; font-size:11px; font-weight:600;
                    white-space:nowrap;">Draft&nbsp;#{num}</a>
-            </td>
+            </td>""" if draft_trigger_url else ""}
         </tr>
         """
 
@@ -546,7 +549,7 @@ def build_email_html(results: list[dict], date_range: str,
                     <th style="padding:12px; font-weight:500;">Closes</th>
                     <th style="padding:12px; font-weight:500;">Type</th>
                     <th style="padding:12px; font-weight:500;">Source</th>
-                    <th style="padding:12px; font-weight:500;">Action</th>
+                    {f'<th style="padding:12px; font-weight:500;">Action</th>' if draft_trigger_url else ''}
                 </tr>
             </thead>
             <tbody>
@@ -554,14 +557,16 @@ def build_email_html(results: list[dict], date_range: str,
             </tbody>
         </table>
 
+        {"" if not draft_trigger_url else f"""
         <!-- Draft instructions -->
         <div style="background:#f0f2f6; padding:14px 28px; border-top:1px solid #e2e6ea;">
             <p style="margin:0; font-size:12px; color:{BRAND_BLUE}; line-height:1.5;">
-                <strong>To draft an application:</strong> Click a <span style="background:{BRAND_ORANGE}; color:white; padding:1px 6px; border-radius:4px; font-size:10px;">Draft</span> button above &rarr;
-                enter the contract number (e.g. <strong>4</strong> for #{'{'}4{'}'}) &rarr; click <strong>Run workflow</strong>.
-                The draft will be emailed to you for review.
+                <strong>To draft an application:</strong> Click any
+                <span style="background:{BRAND_ORANGE}; color:white; padding:1px 6px; border-radius:4px; font-size:10px;">Draft</span>
+                button above. A tailored application will be generated and emailed to you for review (usually 2-3 minutes).
             </p>
         </div>
+        """}
 
         <!-- Footer -->
         <div style="padding:18px 28px; background:#f8f9fa; border-radius:0 0 10px 10px; text-align:center;">
@@ -711,12 +716,15 @@ def main():
     else:
         subject = f"Weekly Gov Contracts \u2014 No New Opportunities \u2014 {date_range}"
 
+    draft_trigger_url = email_cfg.get("draft_trigger_url", "").rstrip("/")
+
     html = build_email_html(
         results, date_range,
         new_ids=new_ids,
         pipeline=pipeline,
         fit_scores=fit_scores,
         qc_flags=qc_flags,
+        draft_trigger_url=draft_trigger_url,
     )
 
     # 6. Send email

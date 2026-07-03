@@ -7,5 +7,6 @@
     "open_only": true,
     "sort_by": "closing_date_asc"
   },
-  "schedule": "Every Friday 8:00 AM UTC"
+  "schedule": "Every Friday 8:00 AM UTC",
+  "draft_trigger_url": ""
 }
