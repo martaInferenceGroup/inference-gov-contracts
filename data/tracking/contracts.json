@@ -280,7 +280,7 @@
     "total_value": 60000.0,
     "link": "https://www.find-tender.service.gov.uk/Notice/056058-2026?origin=SearchResults&p=1",
     "fit_score": 4,
-    "status": "seen",
+    "status": "skipped",
     "first_seen": "2026-07-03",
     "last_seen": "2026-07-03",
     "status_history": [
@@ -294,6 +294,12 @@
         "date": "2026-07-03",
         "by": "system",
         "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-07-10",
+        "by": "system",
+        "reason": "deadline passed"
       }
     ],
     "draft_id": null,
@@ -310,7 +316,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-03",
-    "last_seen": "2026-07-03",
+    "last_seen": "2026-07-10",
     "status_history": [
       {
         "status": "new",
@@ -338,7 +344,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-03",
-    "last_seen": "2026-07-03",
+    "last_seen": "2026-07-10",
     "status_history": [
       {
         "status": "new",
@@ -348,6 +354,34 @@
       {
         "status": "seen",
         "date": "2026-07-03",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "063523-2026": {
+    "ocid": "063523-2026",
+    "title": "GBRX UDM Innovation and Technology",
+    "buyer": "NETWORK RAIL INFRASTRUCTURE LIMITED",
+    "source": "Find a Tender",
+    "closing_date": "2026-09-30",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/063523-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-07-10",
+    "last_seen": "2026-07-10",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-10",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-10",
         "by": "system",
         "reason": "included in weekly email"
       }
