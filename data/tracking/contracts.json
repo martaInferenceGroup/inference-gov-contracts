@@ -316,7 +316,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-03",
-    "last_seen": "2026-07-10",
+    "last_seen": "2026-07-17",
     "status_history": [
       {
         "status": "new",
@@ -344,7 +344,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-03",
-    "last_seen": "2026-07-10",
+    "last_seen": "2026-07-17",
     "status_history": [
       {
         "status": "new",
@@ -372,7 +372,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-10",
-    "last_seen": "2026-07-10",
+    "last_seen": "2026-07-17",
     "status_history": [
       {
         "status": "new",
@@ -382,6 +382,62 @@
       {
         "status": "seen",
         "date": "2026-07-10",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "067135-2026": {
+    "ocid": "067135-2026",
+    "title": "In Service Evaluation into Newborn Screening for Spinal Muscular Atrophy and Severe Combined Immunodeficiency (SMA and SCID)",
+    "buyer": "Department of Health & Social Care",
+    "source": "Find a Tender",
+    "closing_date": "2026-08-07",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/067135-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-07-17",
+    "last_seen": "2026-07-17",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-17",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-17",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "067219-2026": {
+    "ocid": "067219-2026",
+    "title": "Road Fleet Vehicle Telematics",
+    "buyer": "Transport for London",
+    "source": "Find a Tender",
+    "closing_date": "2026-08-07",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/067219-2026?origin=SearchResults&p=1",
+    "fit_score": 1,
+    "status": "seen",
+    "first_seen": "2026-07-17",
+    "last_seen": "2026-07-17",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-17",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-17",
         "by": "system",
         "reason": "included in weekly email"
       }
