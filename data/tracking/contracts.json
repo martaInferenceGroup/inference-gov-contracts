@@ -316,7 +316,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-03",
-    "last_seen": "2026-07-24",
+    "last_seen": "2026-07-31",
     "status_history": [
       {
         "status": "new",
@@ -344,7 +344,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-03",
-    "last_seen": "2026-07-24",
+    "last_seen": "2026-07-31",
     "status_history": [
       {
         "status": "new",
@@ -372,7 +372,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-10",
-    "last_seen": "2026-07-24",
+    "last_seen": "2026-07-31",
     "status_history": [
       {
         "status": "new",
@@ -400,7 +400,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-17",
-    "last_seen": "2026-07-24",
+    "last_seen": "2026-07-31",
     "status_history": [
       {
         "status": "new",
@@ -428,7 +428,7 @@
     "fit_score": 1,
     "status": "seen",
     "first_seen": "2026-07-17",
-    "last_seen": "2026-07-24",
+    "last_seen": "2026-07-31",
     "status_history": [
       {
         "status": "new",
@@ -438,6 +438,90 @@
       {
         "status": "seen",
         "date": "2026-07-17",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "072097-2026": {
+    "ocid": "072097-2026",
+    "title": "Industry Partnership and Sponsorship Opportunity: Dragon's Heart Institute Spread & Scale Academy 2026",
+    "buyer": "Cardiff and Vale University Health Board",
+    "source": "Find a Tender",
+    "closing_date": "2026-08-28",
+    "total_value": 72000.0,
+    "link": "https://www.find-tender.service.gov.uk/Notice/072097-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-07-31",
+    "last_seen": "2026-07-31",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-31",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-31",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "070741-2026": {
+    "ocid": "070741-2026",
+    "title": "Feel Good Suffolk AI and Digital Offer Development",
+    "buyer": "Suffolk County Council",
+    "source": "Find a Tender",
+    "closing_date": "2026-09-30",
+    "total_value": 203400.0,
+    "link": "https://www.find-tender.service.gov.uk/Notice/070741-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-07-31",
+    "last_seen": "2026-07-31",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-31",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-31",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "071560-2026": {
+    "ocid": "071560-2026",
+    "title": "Supplier Ambient Voice Technology (AVT) Self Certified Registry for the use of AI-Enabled Ambient Scribing Products in Health and Care Settings",
+    "buyer": "NHS ENGLAND",
+    "source": "Find a Tender",
+    "closing_date": "2029-12-14",
+    "total_value": null,
+    "link": "https://www.find-tender.service.gov.uk/Notice/071560-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-07-31",
+    "last_seen": "2026-07-31",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-07-31",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-07-31",
         "by": "system",
         "reason": "included in weekly email"
       }
