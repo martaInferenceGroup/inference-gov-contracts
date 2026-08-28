@@ -384,7 +384,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-10",
-    "last_seen": "2026-08-21",
+    "last_seen": "2026-08-28",
     "status_history": [
       {
         "status": "new",
@@ -480,7 +480,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-31",
-    "last_seen": "2026-08-21",
+    "last_seen": "2026-08-28",
     "status_history": [
       {
         "status": "new",
@@ -508,7 +508,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-31",
-    "last_seen": "2026-08-21",
+    "last_seen": "2026-08-28",
     "status_history": [
       {
         "status": "new",
@@ -536,7 +536,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-31",
-    "last_seen": "2026-08-21",
+    "last_seen": "2026-08-28",
     "status_history": [
       {
         "status": "new",
@@ -596,7 +596,7 @@
     "total_value": 130000.0,
     "link": "https://www.find-tender.service.gov.uk/Notice/076771-2026?origin=SearchResults&p=1",
     "fit_score": 3,
-    "status": "seen",
+    "status": "skipped",
     "first_seen": "2026-08-14",
     "last_seen": "2026-08-21",
     "status_history": [
@@ -610,6 +610,12 @@
         "date": "2026-08-14",
         "by": "system",
         "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-08-28",
+        "by": "system",
+        "reason": "deadline passed"
       }
     ],
     "draft_id": null,
@@ -626,7 +632,7 @@
     "fit_score": 1,
     "status": "seen",
     "first_seen": "2026-08-14",
-    "last_seen": "2026-08-21",
+    "last_seen": "2026-08-28",
     "status_history": [
       {
         "status": "new",
@@ -654,7 +660,7 @@
     "fit_score": 3,
     "status": "seen",
     "first_seen": "2026-08-14",
-    "last_seen": "2026-08-21",
+    "last_seen": "2026-08-28",
     "status_history": [
       {
         "status": "new",
@@ -682,7 +688,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-08-21",
-    "last_seen": "2026-08-21",
+    "last_seen": "2026-08-28",
     "status_history": [
       {
         "status": "new",
@@ -692,6 +698,62 @@
       {
         "status": "seen",
         "date": "2026-08-21",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "079784-2026": {
+    "ocid": "079784-2026",
+    "title": "Preliminary Market Engagement for E-Procurement System",
+    "buyer": "BROMFORD FLAGSHIP LIVEWEST LIMITED",
+    "source": "Find a Tender",
+    "closing_date": "2026-09-11",
+    "total_value": 130000.0,
+    "link": "https://www.find-tender.service.gov.uk/Notice/079784-2026?origin=SearchResults&p=1",
+    "fit_score": 3,
+    "status": "seen",
+    "first_seen": "2026-08-28",
+    "last_seen": "2026-08-28",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-08-28",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-08-28",
+        "by": "system",
+        "reason": "included in weekly email"
+      }
+    ],
+    "draft_id": null,
+    "notes": ""
+  },
+  "079891-2026": {
+    "ocid": "079891-2026",
+    "title": "Planned procurement notice for E-Procurement System",
+    "buyer": "BROMFORD FLAGSHIP LIVEWEST LIMITED",
+    "source": "Find a Tender",
+    "closing_date": "2026-11-12",
+    "total_value": 130000.0,
+    "link": "https://www.find-tender.service.gov.uk/Notice/079891-2026?origin=SearchResults&p=1",
+    "fit_score": 2,
+    "status": "seen",
+    "first_seen": "2026-08-28",
+    "last_seen": "2026-08-28",
+    "status_history": [
+      {
+        "status": "new",
+        "date": "2026-08-28",
+        "by": "system"
+      },
+      {
+        "status": "seen",
+        "date": "2026-08-28",
         "by": "system",
         "reason": "included in weekly email"
       }
