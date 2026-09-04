@@ -384,7 +384,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-10",
-    "last_seen": "2026-08-28",
+    "last_seen": "2026-09-04",
     "status_history": [
       {
         "status": "new",
@@ -478,7 +478,7 @@
     "total_value": 72000.0,
     "link": "https://www.find-tender.service.gov.uk/Notice/072097-2026?origin=SearchResults&p=1",
     "fit_score": 2,
-    "status": "seen",
+    "status": "skipped",
     "first_seen": "2026-07-31",
     "last_seen": "2026-08-28",
     "status_history": [
@@ -492,6 +492,12 @@
         "date": "2026-07-31",
         "by": "system",
         "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-09-04",
+        "by": "system",
+        "reason": "deadline passed"
       }
     ],
     "draft_id": null,
@@ -508,7 +514,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-31",
-    "last_seen": "2026-08-28",
+    "last_seen": "2026-09-04",
     "status_history": [
       {
         "status": "new",
@@ -536,7 +542,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-07-31",
-    "last_seen": "2026-08-28",
+    "last_seen": "2026-09-04",
     "status_history": [
       {
         "status": "new",
@@ -630,7 +636,7 @@
     "total_value": null,
     "link": "https://www.find-tender.service.gov.uk/Notice/076454-2026?origin=SearchResults&p=1",
     "fit_score": 1,
-    "status": "seen",
+    "status": "skipped",
     "first_seen": "2026-08-14",
     "last_seen": "2026-08-28",
     "status_history": [
@@ -644,6 +650,12 @@
         "date": "2026-08-14",
         "by": "system",
         "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-09-04",
+        "by": "system",
+        "reason": "deadline passed"
       }
     ],
     "draft_id": null,
@@ -658,7 +670,7 @@
     "total_value": null,
     "link": "https://www.find-tender.service.gov.uk/Notice/076367-2026?origin=SearchResults&p=1",
     "fit_score": 3,
-    "status": "seen",
+    "status": "skipped",
     "first_seen": "2026-08-14",
     "last_seen": "2026-08-28",
     "status_history": [
@@ -672,6 +684,12 @@
         "date": "2026-08-14",
         "by": "system",
         "reason": "included in weekly email"
+      },
+      {
+        "status": "skipped",
+        "date": "2026-09-04",
+        "by": "system",
+        "reason": "deadline passed"
       }
     ],
     "draft_id": null,
@@ -688,7 +706,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-08-21",
-    "last_seen": "2026-08-28",
+    "last_seen": "2026-09-04",
     "status_history": [
       {
         "status": "new",
@@ -716,7 +734,7 @@
     "fit_score": 3,
     "status": "seen",
     "first_seen": "2026-08-28",
-    "last_seen": "2026-08-28",
+    "last_seen": "2026-09-04",
     "status_history": [
       {
         "status": "new",
@@ -744,7 +762,7 @@
     "fit_score": 2,
     "status": "seen",
     "first_seen": "2026-08-28",
-    "last_seen": "2026-08-28",
+    "last_seen": "2026-09-04",
     "status_history": [
       {
         "status": "new",
